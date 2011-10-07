@@ -1,4 +1,8 @@
-.class public org/gruj/Vs
+; +===============================================++
+;  \  GRUJ v0.1.3 - 2011-10-07 - http://gruj.org/ ||
+;   ^=============================================++
+
+ .class public org/gruj/Vs
 .super java/lang/Object
 
 .method private static cat(Ljava/lang/String;Ljava/lang/Object;)Ljava/lang/String;
