@@ -2,11 +2,11 @@ server {
   listen 80;
   server_name .gruj.org;
 
-  access_log /##PATH##/logs/nginx/access.log;
-  error_log  /##PATH##/logs/nginx/error.log;
+  access_log /##PATH##/lift/logs/nginx/access.log;
+  error_log  /##PATH##/lift/logs/nginx/error.log;
 
   location ~ ^/(favicon\.ico|robots\.txt|static/.*)$ {
-    root     /##PATH##/code/lift/src/main/webapp;
+    root     /##PATH##/lift/src/main/webapp;
     expires  30d;
   }
 
