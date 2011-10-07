@@ -18,6 +18,7 @@ addSbtPlugin("com.typesafe.sbteclipse" % "sbteclipse" % "1.4.0")
 resolvers += "Siasia repo" at "http://siasia.github.com/maven2"
 
 addSbtPlugin("com.github.siasia" %% "xsbt-web-plugin" % "0.1.2")
+//libraryDependencies <+= sbtVersion(v => "com.github.siasia" %% "xsbt-web-plugin" % (v+"-0.2.3"))
 
 // +------------------------------------------------------------------------------------+
 // | Proguard plugin (https://github.com/siasia/xsbt-proguard-plugin)                   |

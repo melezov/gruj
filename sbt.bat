@@ -61,9 +61,9 @@ set STRAP=project\strap
 set SBT_PATH=%STRAP%\sbt-launch-0.11.0.jar
 set SBT_PARAMS=%LOG_LEVEL%%SBT_PARAMS%
 
-set SBT_URL=ftp://xsbt.org/sbt-launch-0.11.0.jar
+set SBT_URL=http://typesafe.artifactoryonline.com/typesafe/ivy-releases/org.scala-tools.sbt/sbt-launch/0.11.0/sbt-launch.jar
 set GRUJ_PATH=%STRAP%\gruj.jar
-set GRUJ_PARAMS=%GRUJ_PATH% -q -c5B15BA0FC63E355D47293DEF4BC2E58DA6F03787 -d %SBT_URL% %SBT_PATH% %SBT_PARAMS%
+set GRUJ_PARAMS=%GRUJ_PATH% -c5B15BA0FC63E355D47293DEF4BC2E58DA6F03787 -d %SBT_URL% %SBT_PATH% %SBT_PARAMS%
 
 set RUN_CMD=java %JVM_PARAMS% -jar %GRUJ_PARAMS%
 

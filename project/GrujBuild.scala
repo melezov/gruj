@@ -29,7 +29,7 @@ object Resolvers {
 }
 
 object Dependencies {
-  val jetty  = "org.eclipse.jetty" % "jetty-webapp" % "7.5.1.v20110908" % "jetty"
+  val jetty  = "org.eclipse.jetty" % "jetty-webapp" % "7.5.1.v20110908" % "jetty" // "container"
 
   val liftVersion = "2.4-M4"
   val liftweb = Seq(
