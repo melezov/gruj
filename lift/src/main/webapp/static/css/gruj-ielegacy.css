@@ -1,0 +1,14 @@
+@charset "UTF-8";
+
+#sidebar .section .date {
+  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#AAAAAA', endColorstr='#CCCCCC', GradientType=0 ); /* IE6-9 */
+}
+#posts .post pre {
+  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#FFFFFF', endColorstr='#F5F5F5', GradientType=1 ); /* IE6-9 */
+}
+#nav ul li a, #nav ul li span {
+  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#FFFFFF', endColorstr='#EEEEEE', GradientType=0 ); /* IE6-9 */
+}
+#nav ul li a:hover {
+  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#128B4C', endColorstr='#0B562E',GradientType=0 ); /* IE6-9 */
+}

@@ -1,0 +1,18 @@
+server {
+  listen 80;
+  server_name .gruj.org;
+
+  access_log /##PATH##/logs/nginx/access.log;
+  error_log  /##PATH##/logs/nginx/error.log;
+
+  location ~ ^/(favicon\.ico|robots\.txt|static/.*)$ {
+    root     /##PATH##/code/lift/src/main/webapp;
+    expires  30d;
+  }
+
+  location / {
+    proxy_pass http://localhost:8071;
+    proxy_set_header REMOTE_ADDR $remote_addr;
+    proxy_set_header HOST $host;
+  }
+}

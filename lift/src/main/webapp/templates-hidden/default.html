@@ -1,0 +1,72 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:lift="http://liftweb.net/" lang="en-US">
+
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+  <title class="lift:Menu.title">GRUJ -</title>
+
+  <meta content="GRUJ, Scala, SBT, loader" name="keywords" />
+  <meta content="GRUJ - GRand Unified Jarloader" name="description" />
+
+  <meta content="Element d.o.o." name="author" />
+  <link rel="shortcut icon" type="image/vnd.microsoft.icon" href="/favicon.ico" />
+
+  <link rel="stylesheet" type="text/css" href="/static/css/blueprint/screen.css" />
+  <link rel="stylesheet" type="text/css" href="/static/less/gruj.css" />
+</head>
+
+<body>
+  <!-- CONTAINER START -->
+  <div class="container" id="container">
+
+    <!-- HEADER START -->
+    <div class="span-24 last" id="header">
+      <div id="logo" class="span-11 column last">
+        <h1 class="span-4">GRUJ</h1>
+      </div>
+
+      <!-- NAVIGATION START -->
+      <div class="span-13 column last" id="nav">
+        <div class="lift:menu.builder"/>
+      </div>
+      <!-- NAVIGATION END -->
+
+      <div id="gljiva" class="span-24 last">
+        <div id="mushroom" class="span-11 pull-4">&nbsp;</div>
+      </div>
+    </div>
+    <!-- HEADER END -->
+
+    <div id="wrapper" class="span-24">
+
+      <!-- CONTENT START -->
+      <div class="column span-16 colborder">
+        <lift:bind name="content" />
+      </div>
+      <!-- CONTENT END -->
+
+      <!-- SIDEBAR START -->
+      <lift:embed what="sidebar" />
+      <!-- SIDEBAR END -->
+
+    <div class="clear">&nbsp;</div>
+    </div>
+
+    <!-- FOOTER START -->
+    <div class="span-24 last clearfix" id="footer">
+      <div>
+        Copyright &copy; 2011. by Element d.o.o. All rights reserved.
+        <hr class="space" />
+      </div>
+    </div>
+    <!-- FOOTER END -->
+
+  </div>
+  <!-- CONTAINER END -->
+
+  <lift:scripts type="jquery" version="1.6.4" min="prod"/>
+  <script type="text/javascript" src="/static/coffee/gruj.js"></script>
+
+  <lift:embed what="google-analytics"/>
+</body>
+
+</html>

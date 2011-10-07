@@ -1,0 +1,113 @@
+<div id="main" class="lift:surround?with=default;at=content">
+  <div id="posts">
+    <div class="post">
+      <h2>What is GRUJ?</h2>
+      <p>
+        GRUJ is an application that downloads and launches jar files.
+        Its primary function is to reduce the <em>binary footprint</em> of
+        source versioned projects and releases to a minimum, due to
+        its tiny size (~3kb).
+      </p>
+      <p>
+        GRUJ was written in Jasmin, and the source code is freely available.
+        <a class="ninja" href="http://unlicense.org/" rel="external">
+          This is free and unencumbered software released into the public domain.
+        </a>
+      </p>
+    </div>
+
+    <div class="post">
+      <h2>Why use GRUJ?</h2>
+      <p>
+        Although there are many cross-platform tools that would do the job, such as wget,
+        curl and similar the main problem is that none of these is available by default
+        on all platforms.<br />
+        Since GRUJ is primarily designed to bootstrap other Java programs,
+        the only thing you need is a JRE itself.
+      </p>
+      <p>
+        Same goes for calculating checksums. Again, there is a lot of tools available,
+        but if you want to write a bash/batch script and make sure it's solid, you need
+        to make sure that whatever digest engine you used is already installed.<br />
+        GRUJ can double as a poor man's checksum verifier, since it can generate MD5
+        and SHA-1 hashes. In short &ndash; it's a couple of simple functions related
+        to downloading and verifying wrapped in one small package.
+      </p>
+    </div>
+
+    <div class="post">
+      <h2>How does GRUJ work?</h2>
+      <ol>
+        <li>
+          Check to see if file was already downloaded before
+          <ul>
+            <li>optionally check the cached file against a checksum</li>
+            <li>optionally delete the invalidated file on checksum mismatch</li>
+          </ul>
+        </li>
+        <li>
+          If file did not exist, download it from the provided URL
+          <ul>
+            <li>optionally compare the newly downloaded file to a checksum</li>
+          </ul>
+        </li>
+        <li>
+          Run the jar file by invoking its main-class method
+          <ul>
+            <li>optionally run a different main method</li>
+          </ul>
+        </li>
+      </ol>
+    </div>
+
+    <div class="post">
+      <h2>Where can I get GRUJ?</h2>
+      <p>
+        Here is a list of latest releases
+      </p>
+      <table>
+        <thead>
+          <tr>
+            <th class="c">Version</th>
+            <th>Description</th>
+            <th>Link</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="c s">0.2.1</td>
+            <td>
+              Binary download &ndash; bytecode size reduced with
+              <a href="http://proguard.sourceforge.net/" rel="external" title="ProGuard homepage">ProGuard</a>,
+              ZIP file optimized with
+              <a href="http://advsys.net/ken/utils.htm" rel="external" title="Ken Silverman's Utility Page">KZip</a> &amp;
+              <a href="http://www.7-zip.org/" rel="external" title="7-Zip homepage">7-Zip</a> trials,
+              deflate stream trimmed with
+              <a href="http://www.walbeehm.com/download/" rel="external" title="Ben Jos Walbeehm's Download Page">DeflOpt</a> &amp;
+              <a href="http://encode.ru/threads/1214-defluff-a-deflate-huffman-optimizer" rel="external" title="defluff - a deflate huffman optimizer">defluff</a>.
+            </td>
+            <td><a href="/gruj.jar">gruj.jar</a></td>
+          </tr>
+          <tr>
+            <td class="c s">0.2.1</td>
+            <td>
+              Source download &ndash; build with <a href="http://jasmin.sourceforge.net/" rel="external" title="Jasmin homepage">Jasmin</a> assembler.
+            </td>
+            <td><a href="/gruj-src.zip">gruj-src.zip</a></td>
+          </tr>
+        </tbody>
+      </table>
+      <p>
+        You are also most welcome to fork GRUJ on GitHub or Launchpad.
+      </p>
+      <p>
+        The project contains a copy of this exact website inside it so you can see how GRUJ
+        is used to bootstrap a simple SBT 0.11.x powered Lift website.
+      </p>
+    </div>
+  </div>
+
+  <tail>
+    <script type="text/javascript" src="/static/coffee/index.js"></script>
+  </tail>
+</div>

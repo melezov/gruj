@@ -1,0 +1,340 @@
+@charset "UTF-8";
+
+/* ----- DEFS --------------------------------------------------------------- */
+
+@font-name: 'Terminal Dosis';
+@font-name-cond: 'TerminalDosis';
+@title-font: @font-name, Arial, Helvetica, Helv, sans-serif;
+@text: #BBB;
+@link: #FD3;
+@link-hover: #A20;
+@global-radius: 3px;
+
+/* ----- FONT --------------------------------------------------------------- */
+
+@font-face {
+  font-family: @font-name;
+  font-style: normal;
+  font-weight: 400;
+  src: local('@{font-name} Book'), local('@{font-name-cond}-Book'), url('../fonts/@{font-name-cond}-Regular.woff') format('woff');
+}
+
+@font-face {
+  font-family: @font-name;
+  font-style: normal;
+  font-weight: 700;
+  src: local('@{font-name} Bold'), local('@{font-name-cond}-Bold'), url('../fonts/@{font-name-cond}-Bold.woff') format('woff');
+}
+
+@font-face {
+  font-family: @font-name;
+  font-style: normal;
+  font-weight: 800;
+  src: local('@{font-name} ExtraBold'), local('@{font-name-cond}-ExtraBold'), url('../fonts/@{font-name-cond}-ExtraBold.woff') format('woff');
+}
+
+/* --- TAG REDEFS ----------------------------------------------------------- */
+
+body {
+  background: #FFF url('../img/textures/real_cf-dark.png') repeat left top;
+}
+
+hr {
+  background: #999;
+}
+
+h1.tight, h2.tight, h3.tight, h4.tight, h5.tight, h6.tight {
+  margin-bottom: 0.5em;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: @title-font;
+}
+
+table {
+  border-bottom: 2px dotted fadeout(#000, 75%);
+  text-shadow: 1px 1px 0 #111;
+
+  thead th {
+    text-shadow: 1px 1px 0 #000;
+    .bg-fill-3(top, fadeout(#000, 57%), 0%, fadeout(#000, 73%), 40%, fadeout(#000, 73%), 100%);
+  }
+
+  tbody tr:nth-child(2n) td, tbody tr.even td {
+    background: fadeout(#000, 87%);
+  }
+
+  thead th.c, tbody td.c {
+    text-align: center;
+  }
+
+  thead th.s, tbody td.s {
+    font-size: 0.85em;
+  }
+}
+
+pre {
+  padding: 0.5em 1em;
+  background: fadeout(#000, 87%);
+  color: #888;
+  .border-radius;
+}
+
+/* --- ADDON CLASSES -------------------------------------------------------- */
+
+a.ninja {
+  color: @text !important;
+}
+
+ul.headless {
+  padding-left: 0;
+  list-style: none;
+}
+
+ul.horizontal li {
+  display: inline;
+}
+
+ul.bare {
+  margin: 0;
+  padding: 0;
+  list-style-position: inside;
+}
+
+a:link, a:visited {
+  color: @link;
+  text-decoration: none;
+}
+
+a:hover {
+  color: @link-hover;
+}
+
+.clearfix:before, .clearfix:after {
+  display: table;
+  content: "";
+  zoom: 1;
+  *display: inline;
+}
+
+dd + dt {
+  margin-top: 0.75em;
+}
+
+.hidden {
+  display: none;
+}
+
+/* --- THE WORKS ------------------------------------------------------------ */
+
+#container {
+  padding: 1em;
+}
+
+#header {
+  margin: 1em 0;
+  .border-radius;
+
+  h1 {
+    font-family: @title-font;
+    font-weight: 800;
+    color: @link;
+    text-shadow: 1px 2px 1px #000, 0px -1px 1px #000;
+    position: relative;
+    z-index: 2;
+    top: 0.15em;
+  }
+}
+
+#mushroom {
+  background: url('../img/mushroom.png') no-repeat center;
+  z-index: -1;
+  height: 186px;
+  position: relative;
+  left: -8px;
+  top: -75px;
+}
+
+#gljiva {
+  height: 0;
+}
+
+#nav {
+  padding: 1em 0;
+
+  ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+
+    li {
+      display: inline;
+      margin-right: 0.25em;
+      font-weight: bold;
+      font-size: 1.25em;
+      font-family: @title-font;
+      text-transform: uppercase;
+
+      a, span {
+        color: @link;
+        padding: 0.75em 1.5em;
+        .border-radius(2em);
+        text-shadow: 2px 2px 1px fadeout(#000, 50%);
+        .box-shadow(2px 2px 4px fadeout(#000, 50%) inset);
+        background: @link-hover;
+        .bg-fill-3(top, @link-hover, 0%, darken(@link-hover, 9%), 65%, darken(@link-hover, 18%), 100%);
+      }
+
+      span {
+        text-shadow: none;
+      }
+
+      a:hover {
+        color: #FFF;
+        //.box-shadow(none);
+        text-shadow: 1px 1px 1px fadeout(#000, 25%);
+        background: @link-hover;
+        .bg-fill-3(top, @link-hover, 0%, lighten(@link-hover, 4%), 65%, lighten(@link-hover, 9%), 100%);
+      }
+    }
+  }
+}
+
+.colborder {
+  border-right: 1px solid #000;
+}
+
+#main {
+  padding: 1em 1.5em;
+  .border-radius(1em);
+  color: @text;
+  text-shadow: 1px 1px 0 #333;
+  .box-shadow(2px 2px 2px fadeout(#000, 75%) inset);
+  border: 1px solid fadeout(#000, 65%);
+  background: #555;
+  .bg-fill-3(left, fadeout(#555, 27%), 0%, fadeout(#555, 23%), 95%, fadeout(#555, 20%), 100%);
+
+  h1, h2, h3, h4, h5, h6 {
+    color: #FFF;
+    text-shadow: 1px 1px 0 fadeout(#000, 15%);
+    text-transform: uppercase;
+  }
+
+  h3 {
+    font-size: 1.25em;
+  }
+
+  h4 {
+    font-size: 1.1em;
+  }
+}
+
+#posts {
+  h2 {
+    font-weight: 700;
+    text-transform: uppercase;
+    font-size: 1.5em;
+  }
+
+  .post {
+    border-bottom: 1px solid #333;
+    margin-bottom: 2em;
+    margin-right: 3em;
+
+    &:last-child {
+      border-bottom: none;
+      margin-bottom: 2em;
+    }
+
+    &.tab {
+      padding-left: 1em;
+    }
+  }
+
+  .tabbar {
+    font-family: @title-font;
+    font-size: 1.25em;
+    text-transform: uppercase;
+    margin: 0 0 1.5em;
+    padding-bottom: 0.2em;
+    border-bottom: 1px solid #222;
+
+    li {
+      a {
+        //background: fadeout(#000, 85%);
+        .bg-fill-3(top, fadeout(#000, 100%), 0%, fadeout(#000, 95%), 70%, fadeout(#000, 75%), 100%);
+        .border-radius(0.5em 0.5em 0 0);
+        padding: 0.25em 1em;
+      }
+
+      &.active a {
+        background: fadeout(#000, 65%);
+      }
+    }
+  }
+}
+
+#sidebar {
+  color: #888;
+  padding: 1em 0;
+
+  h1, h2, h3, h4, h5, h6 {
+    color: @link-hover;
+    text-shadow: 1px 1px 0 #000;
+    text-transform: uppercase;
+    font-weight: 700;
+  }
+
+  .section ul li {
+    margin: 0.25em 0;
+  }
+
+  .date {
+    font-size: 0.9em;
+    color: #888;
+    background: #222;
+    text-shadow: 1px 1px 0 #000;
+    padding: 1px 3px;
+    .border-radius;
+  }
+}
+
+#footer {
+  color: #888;
+  text-shadow: 1px 1px 0 #000;
+  padding: 0 1em;
+}
+
+/* --- LESS FUNCTIONS ------------------------------------------------------- */
+
+.border-radius(@radius: @global-radius) {
+  border-radius: @radius;
+  -moz-border-radius: @radius;
+  -webkit-border-radius: @radius;
+}
+
+.box-shadow(@params) {
+  box-shadow: @params;
+  -moz-box-shadow: @params;
+  -webkit-box-shadow: @params;
+}
+
+.bg-fill-2(@dir, @top, @top-pos, @last, @last-pos) {
+  background: -moz-linear-gradient(@dir, @top @top-pos, @last @last-pos);
+  background: -webkit-gradient(linear, left top, left bottom, color-stop(@top-pos, @top), color-stop(@last-pos, @last));
+  background: -webkit-linear-gradient(@dir, @top @top-pos,  @last @last-pos);
+  background: -o-linear-gradient(@dir, @top @top-pos, @last @last-pos);
+  background: -ms-linear-gradient(@dir, @top @top-pos, @last @last-pos);
+  background: linear-gradient(@dir, @top @top-pos, @last @last-pos);
+}
+
+.bg-fill-3(@dir, @top, @top-pos, @mid, @mid-pos, @last, @last-pos) {
+  background: -moz-linear-gradient(@dir, @top @top-pos, @mid @mid-pos, @last @last-pos);
+  background: -webkit-gradient(linear, left top, left bottom, color-stop(@top-pos, @top), color-stop(@mid-pos, @mid), color-stop(@last-pos, @last));
+  background: -webkit-linear-gradient(@dir, @top @top-pos, @mid @mid-pos, @last @last-pos);
+  background: -o-linear-gradient(@dir, @top @top-pos, @mid @mid-pos, @last @last-pos);
+  background: -ms-linear-gradient(@dir, @top @top-pos, @mid @mid-pos, @last @last-pos);
+  background: linear-gradient(@dir, @top @top-pos, @mid @mid-pos, @last @last-pos);
+}
+
+
