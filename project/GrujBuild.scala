@@ -29,7 +29,7 @@ object Resolvers {
 }
 
 object Dependencies {
-  val jetty  = "org.eclipse.jetty" % "jetty-webapp" % "7.5.1.v20110908" % "jetty" // "container"
+  val jetty  = "org.eclipse.jetty" % "jetty-webapp" % "7.5.2.v20111006" % "container"
 
   val liftVersion = "2.4-M4"
   val liftweb = Seq(
@@ -49,9 +49,17 @@ object TemplaterBuild extends Build {
   import BuildSettings._
   import Resolvers._
   import Dependencies._
+
+  // Web plugin
   import com.github.siasia.WebPlugin._
+  import com.github.siasia.PluginKeys._
+
+  // Coffeescript plugin
   import coffeescript.CoffeeScript._
+
+  // Less plugin
   import less.Plugin._
+  import LessKeys._
 
   val depsCore = commons ++ Seq(
     scalatest
@@ -78,15 +86,14 @@ object TemplaterBuild extends Build {
     settings = bsLift ++ Seq(
       resolvers := resLift,
       libraryDependencies := depsLift
-    ) ++ webSettings ++ Seq(
-      jettyPort     := 8071,
-      jettyScanDirs := Nil,
-      temporaryWarPath <<= (sourceDirectory in Compile)(_ / "webapp")
+    ) ++ webSettings  ++ Seq(
+      port in config("container") := 8071,
+      scanDirectories := Nil
     ) ++ coffeeSettings ++ Seq(
-      targetDirectory in Coffee <<= webappResources(_.get.head / "static" / "coffee")
+      targetDirectory in Coffee <<= (webappResources in Compile)(_.get.head / "static" / "coffee")
     ) ++ lessSettings ++ Seq(
-      (LessKeys.mini in (Compile, LessKeys.less)) := true,
-      (resourceManaged in (Compile, LessKeys.less)) <<= webappResources(_.get.head / "static" / "less")
+      mini in (Compile, less) := true,
+      resourceManaged in (Compile, less) <<= (webappResources in Compile)(_.get.head / "static" / "less")
     )
   ) dependsOn(core)
 }

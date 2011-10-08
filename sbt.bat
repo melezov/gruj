@@ -25,7 +25,7 @@ if "%~1"=="--debug" (
 )
 
 if "%~1"=="~lift" (
-  set SBT_PARAMS=%SBT_PARAMS% jetty-run ~prepare-webapp jetty-stop
+  set SBT_PARAMS=%SBT_PARAMS% ~container:start
   set JREBEL_PLUGINS=%JREBEL_PLUGINS% -Drebel.lift_plugin=true
   goto :PARSER_CONTINUE
 )
