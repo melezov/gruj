@@ -10,20 +10,24 @@
 
     <div class="tabbar span-14">
       <ul class="headless horizontal">
-      <div class="lift:Examples.links">
-        <li class="column active">
-          <a et:href="/examples/example-tab"><et:name>Example Tab</et:name></a>
+      <lift:ExampleTabs.menu>
+        <li et:id="example-id" et:class="column">
+          <a et:href="/examples/example-tab">
+            <et:name>Example Tab</et:name>
+          </a>
         </li>
-      </div>
+      </lift:ExampleTabs.menu>
       </ul>
     </div>
 
-    <bind name="tab-content">
-      <div class="lift:Examples.tabs"/>
-    </bind>
+    <lift:ExampleTabs>
+      <div et:id="example-id-tab" et:class="post tab">
+        <lift:embed et:what="example/example"/>
+      </div>
+    </lift:ExampleTabs>
   </div>
 
   <tail>
-    <script type="text/javascript" src="/static/coffee/aexamples.js"></script>
+    <script type="text/javascript" src="/static/coffee/examples.js"></script>
   </tail>
 </div>

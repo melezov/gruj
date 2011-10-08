@@ -7,6 +7,7 @@
 @title-font: @font-name, Arial, Helvetica, Helv, sans-serif;
 @text: #BBB;
 @link: #FD3;
+@link-active: #FFF;
 @link-hover: #A20;
 @global-radius: 3px;
 @path: '../';
@@ -200,10 +201,10 @@ dd + dt {
       font-family: @title-font;
       text-transform: uppercase;
 
-      a, span {
-        color: @link;
+      .menu-links {
         padding: 0.75em 1.5em;
         .border-radius(2em);
+        color: @link;
         text-shadow: 2px 2px 1px fadeout(#000, 50%);
         .box-shadow(2px 2px 4px fadeout(#000, 50%) inset);
         background: @link-hover;
@@ -211,15 +212,19 @@ dd + dt {
       }
 
       span {
+        .menu-links;
+        color: @link-active;
         text-shadow: none;
       }
 
-      a:hover {
-        color: #FFF;
-        //.box-shadow(none);
-        text-shadow: 1px 1px 1px fadeout(#000, 25%);
-        background: @link-hover;
-        .bg-fill-3(top, @link-hover, 0%, lighten(@link-hover, 4%), 65%, lighten(@link-hover, 9%), 100%);
+      a {
+        .menu-links;
+        &:hover {
+          color: @link-active;
+          text-shadow: 1px 1px 1px fadeout(#000, 25%);
+          background: @link-hover;
+          .bg-fill-3(top, @link-hover, 0%, lighten(@link-hover, 4%), 65%, lighten(@link-hover, 9%), 100%);
+        }
       }
     }
   }
@@ -310,8 +315,12 @@ dd + dt {
     font-weight: 700;
   }
 
-  .section ul li {
-    margin: 0.25em 0;
+  .section {
+    padding-bottom: 1em;
+
+    ul li {
+      margin: 0.25em 0;
+    }
   }
 
   .date {

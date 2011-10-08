@@ -15,7 +15,7 @@ import sitemap._
 import Loc._
 import js.jquery._
 
-import org.gruj.lib.ExampleTab
+import org.gruj.snippet._
 
 class Boot {
   LiftRules.addToPackages("org.gruj")
@@ -23,12 +23,11 @@ class Boot {
   LiftRules.setSiteMap(SiteMap(
     Menu.i("About") / "index",
     Menu.i("Examples") / "examples" submenus(
-      ExampleTab.tabs.map(_.menu >> Hidden)
+      ExampleTabs.list.map(_.menu >> Hidden)
     )
   ))
 
-  LiftRules.jsArtifacts = JQuery14Artifacts
-  LiftRules.stripComments.default.set(() => false)
+  LiftRules.dispatch.append(ExampleTabs)
 
   LiftRules.htmlProperties.default.set((r: Req) =>
     new XHtmlInHtml5OutProperties(r.userAgent)
