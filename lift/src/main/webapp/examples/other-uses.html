@@ -1,0 +1,26 @@
+    <div class="post tab example-3">
+      <h3>Using GRUJ as a glorified download manager</h3>
+      <h4>&lt;work in progress&gt;</h4>
+      <p>
+        When plain ol' download managers don't cut it, you need the power
+        of Java to tap into them weird astral protocol planes.
+      </p>
+      <p>
+        Take gopher for example :)<br />
+        <a href="gopher://xsbt.org/" rel="external" title="Weird protocol example">gopher://xsbt.org/</a>
+      </p>
+      <p>
+        What we're going to do now is just use GRUJ to download the jar file,
+        but let's not actually run it. By setting the &quot;<em>-m</em>&quot; argument
+        we are effectively overriding the main-class to run and therefore GRUJ will
+        promptly exit after the file has been downloaded.
+      </p>
+      <pre>C:\&gt;<em class="command">java -jar gruj.jar -m gopher://xsbt.org/sbt-launch-0.11.0.jar sbt-11.jar</em>
+[info] Starting gruj v0.1.3 with parameters:
+[info]   URL: gopher://xsbt.org/sbt-launch-0.11.0.jar
+[info]   File: sbt-11.jar
+[info]   Main class: [N/A]
+[info] Downloading file (gopher://xsbt.org/sbt-launch-0.11.0.jar) ...
+[info] Writing file (C:\sbt-11.jar) ...
+[info] Will not run main class, exiting!</pre>
+    </div>

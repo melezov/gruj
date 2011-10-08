@@ -10,137 +10,20 @@
 
     <div class="tabbar span-14">
       <ul class="headless horizontal">
+      <div class="lift:Examples.links">
         <li class="column active">
-          <a href="examples/#" class="example-1">Bootstraping SBT</a>
+          <a et:href="/examples/example-tab"><et:name>Example Tab</et:name></a>
         </li>
-        <li class="column">
-          <a href="examples/#" class="example-2">Download files</a>
-        </li>
-        <li class="column last">
-          <a href="examples/#" class="example-3">Other uses</a>
-        </li>
+      </div>
       </ul>
     </div>
 
-    <div class="post tab example-1">
-      <h3>Using GRUJ as a Simple Build Tool launch launcher</h3>
-      <p>
-        The easiest way to see this in action would be to checkout the
-        GRUJ website from either
-        <a href="http://launchpad.net/gruj" rel="external" title="GRUJ on Launchpad">Launchpad</a> or
-        <a href="https://github.com/melezov/gruj" rel="external" title="GRUJ on GitHub">GitHub</a>
-        and simply run the thing locally.
-      </p>
-      <h4>Required steps:</h4>
-      <p>
-        Branch the project or download and extract it to some folder.
-        <pre>~$ <strong>bzr branch lp:gruj</strong>
-Branched x revision(s).
-~$ <strong>cd gruj</strong></pre>
-      </p>
-      <p>
-        Run prepare-workspace.sh (or .bat if on Windoze).
-        This will fire up GRUJ and download SBT 0.11.x launcher from Typesafe repos.
-        Although the launcher download will only take a few seconds, the update process
-        could take a while if you do not have the dependancies in your ivy cache already.
-        <pre>~/gruj$ <strong>./prepare-workspace.sh</strong>
-Performing dependancy update for all projects ...
-Will also create Eclipse .project and .classpath files ...
-Disabling JRebel for faster compilation
-[info] Starting gruj v0.1.3 with parameters:
-[info]   Checksum: 5B15BA0FC63E355D47293DEF4BC2E58DA6F03787 [delete on mismatch]
-[info]   URL: http://typesafe.artifactoryonline.com/typesafe/ivy-releases/org.scala-tools.sbt/sbt-launch/0.11.0/sbt-launch.jar
-[info]   File: project/strap/sbt-launch-0.11.0.jar
-[info]   Pass-through parameters: "update" "eclipse"
-[info] Downloading file (http://typesafe.artifactoryonline.com/typesafe/ivy-releases/org.scala-tools.sbt/sbt-launch/0.11.0/sbt-launch.jar) ...
-[info] File downloaded, calculated checksum: 5B15BA0FC63E355D47293DEF4BC2E58DA6F03787 [ok]
-[info] Writing file (~/gruj/project/strap/sbt-launch-0.11.0.jar) ...
-[info] Running main class: xsbt.boot.Boot ...
-[info] Loading project definition from ~/gruj/project
-[info] Updating {file:~/gruj/project/}default-2dcb45...
-[info] Done updating.
-[info] Compiling 1 Scala source to ~/gruj/project/target/scala-2.9.1/sbt-0.11.0/classes...
-[info] Set current project to Gruj - Core (in build file:~/gruj/)
-[info] Updating {file:~/gruj/}Core...
-[info] Done updating.
-[success] Total time: 0 s, completed Oct 7, 2011 6:31:29 AM
-[info] About to create an Eclipse project for you.
-[info] Please hang on, because it might be necessary to perform one or more updates and this might take some time ...
-[info] Updating {file:~/gruj/}Lift...
-[info] Done updating.
-[info] Successfully created Eclipse project files. Please select the appropriate Eclipse plugin for Scala 2.9.1!</pre>
-      </p>
-      <p>
-        So far so good. You only need to run the thing now with jetty-run.sh (or .bat):
-        <pre>~/gruj$ <strong>lift/jetty-run.sh</strong>
-Starting Lift, firing up Jetty ...
-Will run SBT in loop mode
-Firing up Jetty ...
-[info] Starting gruj v0.1.3 with parameters:
-[info]   Checksum: 5B15BA0FC63E355D47293DEF4BC2E58DA6F03787 [delete on mismatch]
-[info]   URL: http://typesafe.artifactoryonline.com/typesafe/ivy-releases/org.scala-tools.sbt/sbt-launch/0.11.0/sbt-launch.jar
-[info]   File: project/strap/sbt-launch-0.11.0.jar
-[info]   Pass-through parameters: "project Lift" "jetty-run" "~prepare-webapp" "jetty-stop"
-[info] Cached file exists, calculated checksum: 5B15BA0FC63E355D47293DEF4BC2E58DA6F03787 [ok]
-[info] Running main class: xsbt.boot.Boot ...
-[info] Loading project definition from ~/gruj/project
-[info] Set current project to Gruj - Core (in build file:~/gruj/)
-[info] Set current project to Gruj - Lift (in build file:~/gruj/)
-[info] Compiling 3 Scala sources to ~/gruj/lift/target/scala-2.9.1/classes...
-[info] Compiling 1 less files to ~/gruj/lift/src/main/webapp/static/less
-[info] Compiling 3 CoffeeScripts to ~/gruj/lift/src/main/webapp/static/coffee
-[info] No CoffeeScripts to compile
-[info] No less files to compile
-[info] jetty-7.5.1.v20110908
-[info] NO JSP Support for /, did not find org.apache.jasper.servlet.JspServlet
-[info] started o.e.j.w.WebAppContext{/,file:~/gruj/lift/src/main/webapp/},~/gruj/lift/src/main/webapp
-[info] Started SelectChannelConnector@0.0.0.0:8071 STARTING
-[info] No less files to compile
-[info] No CoffeeScripts to compile
-[success] Total time: 2 s, completed Oct 7, 2011 6:40:16 AM
-1. Waiting for source changes... (press enter to interrupt)</pre>
-        Voila! Your local website should be up and running on port 8071.<br/>
-        Go check it out: <a href="http://localhost:8071/">http://localhost:8071/</a>
-
-      </p>
-    </div>
-
-    <div class="post tab example-2 hidden">
-      <h3>Using GRUJ as a glorified download manager</h3>
-      <h4>&lt;work in progress&gt;</h4>
-      <p>
-        When plain ol' download managers don't cut it, you need the power
-        of Java to tap into them weird astral protocol planes.
-      </p>
-      <p>
-        Take gopher for example :)<br />
-        <a href="gopher://xsbt.org/" rel="external" title="Weird protocol example">gopher://xsbt.org/</a>
-      </p>
-      <p>
-        What we're going to do now is just use GRUJ to download the jar file,
-        but let's not actually run it. By setting the &quot;<em>-m</em>&quot; argument
-        we are effectivly overriding the main-class to run and therefore GRUJ will
-        promptly exit after the file has been downloaded.
-      </p>
-      <pre>C:\&gt;<strong>java -jar gruj.jar -m gopher://xsbt.org/sbt-launch-0.11.0.jar sbt-11.jar</strong>
-[info] Starting gruj v0.1.3 with parameters:
-[info]   URL: gopher://xsbt.org/sbt-launch-0.11.0.jar
-[info]   File: sbt-11.jar
-[info]   Main class: [N/A]
-[info] Downloading file (gopher://xsbt.org/sbt-launch-0.11.0.jar) ...
-[info] Writing file (C:\sbt-11.jar) ...
-[info] Will not run main class, exiting!</pre>
-    </div>
-
-    <div class="post tab example-3 hidden">
-      <h3>Excercizes with class loaders</h3>
-      <p>
-        &lt;work in progress&gt;
-      </p>
-    </div>
+    <bind name="tab-content">
+      <div class="lift:Examples.tabs"/>
+    </bind>
   </div>
 
   <tail>
-    <script type="text/javascript" src="/static/coffee/examples.js"></script>
+    <script type="text/javascript" src="/static/coffee/aexamples.js"></script>
   </tail>
 </div>

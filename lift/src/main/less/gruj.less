@@ -9,6 +9,8 @@
 @link: #FD3;
 @link-hover: #A20;
 @global-radius: 3px;
+@path: '../';
+@image-path: '@{path}img/';
 
 /* ----- FONT --------------------------------------------------------------- */
 
@@ -77,11 +79,30 @@ pre {
   padding: 0.5em 1em;
   background: fadeout(#000, 87%);
   color: #888;
+  overflow: hidden;
+  .box-shadow(-4px 0 8px fadeout(#000, 85%) inset);
   .border-radius;
-}
+  font-size: 0.9em;
+  white-space: pre;
 
-pre strong {
-  color: #8a8;
+  &:hover {
+    color: @text;
+    text-shadow: 1px 1px 0 fadeout(#000, 65%);
+    overflow: visible;
+    z-index: 2;
+    position: relative;
+    width: 1200px;
+    background: #0D0D0D;
+    .box-shadow(none);
+  }
+
+  em.ok {
+    color: #080;
+  }
+
+  em.command {
+    color: #8a8;
+  }
 }
 
 /* --- ADDON CLASSES -------------------------------------------------------- */
@@ -309,6 +330,20 @@ dd + dt {
   padding: 0 1em;
 }
 
+/* --- EXTERNAL LINKS ------------------------------------------------------- */
+
+a {
+  &.launchpad {
+    background: url('@{image-path}ext/launchpad-dark.png') no-repeat left center;
+    padding-left: 20px;
+  }
+
+  &.github {
+    background: url('@{image-path}ext/github-dark.png') no-repeat left center;
+    padding-left: 20px;
+  }
+}
+
 /* --- LESS FUNCTIONS ------------------------------------------------------- */
 
 .border-radius(@radius: @global-radius) {
@@ -340,8 +375,3 @@ dd + dt {
   background: -ms-linear-gradient(@dir, @top @top-pos, @mid @mid-pos, @last @last-pos);
   background: linear-gradient(@dir, @top @top-pos, @mid @mid-pos, @last @last-pos);
 }
-
-/* --- EXTERNAL LINKS ------------------------------------------------------- */
-
-a.github { background: url('../img/ext/github.png') no-repeat left center; padding-left: 20px; }
-a.launchpad { background: url('../img/ext/launchpad.png') no-repeat left center; padding-left: 20px; }
