@@ -10,9 +10,9 @@
       <h4>Required steps:</h4>
       <p>
         Branch the project or download and extract it to some folder.
-        <pre>~$ <em class="command">bzr branch lp:gruj</em>
+        <pre>user@box:~$ <em class="command">bzr branch lp:gruj</em>
 Branched x revision(s).
-~$ <em class="command">cd gruj</em></pre>
+user@box:~$ <em class="command">cd gruj</em></pre>
       </p>
 
       <p>
@@ -20,7 +20,7 @@ Branched x revision(s).
         This will fire up GRUJ and download SBT 0.11.x launcher from Typesafe repos.
         Although the launcher download will only take a few seconds, the update process
         could take a while if you do not have the dependancies in your ivy cache already.
-        <pre>~/gruj$ <em class="command">./prepare-workspace.sh</em>
+        <pre>user@box:~/gruj$ <em class="command">./prepare-workspace.sh</em>
 Performing dependancy update for all projects ...
 Will also create Eclipse .project and .classpath files ...
 Disabling JRebel for faster compilation
@@ -31,25 +31,25 @@ Disabling JRebel for faster compilation
 [info]   Pass-through parameters: "update" "eclipse"
 [info] Downloading file (http://typesafe.artifactoryonline.com/typesafe/ivy-releases/org.scala-tools.sbt/sbt-launch/0.11.0/sbt-launch.jar) ...
 [info] File downloaded, calculated checksum: 5B15BA0FC63E355D47293DEF4BC2E58DA6F03787 [ok]
-[info] Writing file (~/gruj/project/strap/sbt-launch-0.11.0.jar) ...
+[info] Writing file (~/code/gruj/project/strap/sbt-launch-0.11.0.jar) ...
 [info] Running main class: xsbt.boot.Boot ...
-[info] Loading project definition from ~/gruj/project
-[info] Updating {file:~/gruj/project/}default-2dcb45...
+[info] Loading project definition from ~/code/gruj/project
+[info] Updating {file:~/code/gruj/project/}default-558a6e...
 [info] Done updating.
-[info] Compiling 1 Scala source to ~/gruj/project/target/scala-2.9.1/sbt-0.11.0/classes...
-[info] Set current project to Gruj - Core (in build file:~/gruj/)
-[info] Updating {file:~/gruj/}Core...
+[info] Compiling 1 Scala source to ~/code/gruj/project/target/scala-2.9.1/sbt-0.11.0/classes...
+[info] Set current project to Gruj - Core (in build file:~/code/gruj/)
+[info] Updating {file:~/code/gruj/}Lift...
 [info] Done updating.
-[<em class="ok">success</em>] Total time: 0 s, completed Oct 7, 2011 6:31:29 AM
+[info] Updating {file:~/code/gruj/}Core...
+[info] Done updating.
+[<em class="ok">success</em>] Total time: 0 s, completed Oct 8, 2011 3:59:54 PM
 [info] About to create an Eclipse project for you.
 [info] Please hang on, because it might be necessary to perform one or more updates and this might take some time ...
-[info] Updating {file:~/gruj/}Lift...
-[info] Done updating.
 [info] Successfully created Eclipse project files. Please select the appropriate Eclipse plugin for Scala 2.9.1!</pre>
       </p>
       <p>
         So far so good. You only need to run the thing now with jetty-run.sh (or .bat):
-        <pre>~/gruj$ <em class="command">lift/jetty-run.sh</em>
+        <pre>user@box:~/gruj$ <em class="command">lift/jetty-run.sh</em>
 Starting Lift, firing up Jetty ...
 Will run SBT in loop mode
 Firing up Jetty ...
@@ -57,24 +57,20 @@ Firing up Jetty ...
 [info]   Checksum: 5B15BA0FC63E355D47293DEF4BC2E58DA6F03787 [delete on mismatch]
 [info]   URL: http://typesafe.artifactoryonline.com/typesafe/ivy-releases/org.scala-tools.sbt/sbt-launch/0.11.0/sbt-launch.jar
 [info]   File: project/strap/sbt-launch-0.11.0.jar
-[info]   Pass-through parameters: "project Lift" "jetty-run" "~prepare-webapp" "jetty-stop"
+[info]   Pass-through parameters: "project Lift" "~container:start"
 [info] Cached file exists, calculated checksum: 5B15BA0FC63E355D47293DEF4BC2E58DA6F03787 [ok]
 [info] Running main class: xsbt.boot.Boot ...
-[info] Loading project definition from ~/gruj/project
-[info] Set current project to Gruj - Core (in build file:~/gruj/)
-[info] Set current project to Gruj - Lift (in build file:~/gruj/)
-[info] Compiling 3 Scala sources to ~/gruj/lift/target/scala-2.9.1/classes...
-[info] Compiling 1 less files to ~/gruj/lift/src/main/webapp/static/less
-[info] Compiling 3 CoffeeScripts to ~/gruj/lift/src/main/webapp/static/coffee
-[info] No CoffeeScripts to compile
-[info] No less files to compile
-[info] jetty-7.5.1.v20110908
+[info] Loading project definition from ~/code/gruj/project
+[info] Set current project to Gruj - Core (in build file:~/code/gruj/)
+[info] Set current project to Gruj - Lift (in build file:~/code/gruj/)
+[info] Compiling 4 Scala sources to ~/code/gruj/lift/target/scala-2.9.1/classes...
+[info] Compiling 1 less files to ~/code/gruj/lift/src/main/webapp/static/less
+[info] Compiling 3 CoffeeScripts to ~/code/gruj/lift/src/main/webapp/static/coffee
+[info] jetty-7.5.2.v20111006
 [info] NO JSP Support for /, did not find org.apache.jasper.servlet.JspServlet
-[info] started o.e.j.w.WebAppContext{/,file:~/gruj/lift/src/main/webapp/},~/gruj/lift/src/main/webapp
+[info] started o.e.j.w.WebAppContext{/,[file:~/code/gruj/lift/src/main/webapp/]}
 [info] Started SelectChannelConnector@0.0.0.0:8071 STARTING
-[info] No less files to compile
-[info] No CoffeeScripts to compile
-[<em class="ok">success</em>] Total time: 2 s, completed Oct 7, 2011 6:40:16 AM
+[<em class="ok">success</em>] Total time: 20 s, completed Oct 8, 2011 4:00:48 PM
 1. Waiting for source changes... (press enter to interrupt)</pre>
         Voila! Your local website should be up and running on port 8071.<br/>
         Go check it out: <a href="http://localhost:8071/">http://localhost:8071/</a>
