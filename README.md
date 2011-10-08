@@ -1,6 +1,6 @@
 ## What is GRUJ?
 
-GRUJ is an application that downloads and launches jar files. Its primary function is to reduce the binary footprint of source versioned projects and releases to a minimum, due to its tiny size (~3kb).
+GRUJ is an application which downloads and launches jar files. Its primary function is to reduce the binary footprint of source versioned projects and releases to a minimum, due to its tiny size (~3kb).
 
 GRUJ was written in Jasmin, and the source code is freely available. This is free and unencumbered software released into the public domain.
 
