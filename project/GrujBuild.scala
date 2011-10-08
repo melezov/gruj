@@ -4,7 +4,7 @@ import Keys._
 object BuildSettings {
   val buildOrganization = "Element d.o.o."
   val buildScalaVersion = "2.9.1"
-  val buildScalacOptions = Seq("-deprecation")
+  val buildScalacOptions = Seq("-deprecation", "-Yrepl-sync")
 
   val bsCore = Defaults.defaultSettings ++ Seq(
     organization  := buildOrganization,
