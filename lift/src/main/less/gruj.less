@@ -5,10 +5,12 @@
 @font-name: 'Terminal Dosis';
 @font-name-cond: 'TerminalDosis';
 @title-font: @font-name, Arial, Helvetica, Helv, sans-serif;
+
 @text: #BBB;
 @link: #FD3;
 @link-active: #FFF;
 @link-hover: #A20;
+
 @global-radius: 3px;
 @path: '../';
 @image-path: '@{path}img/';
@@ -97,12 +99,14 @@ pre {
     .box-shadow(none);
   }
 
-  em.ok {
-    color: #080;
-  }
+  strong {
+    &.ok {
+      color: #080;
+    }
 
-  em.command {
-    color: #8a8;
+    &.command {
+      color: #8a8;
+    }
   }
 }
 
@@ -291,7 +295,6 @@ dd + dt {
 
     li {
       a {
-        //background: fadeout(#000, 85%);
         .bg-fill-3(top, fadeout(#000, 100%), 0%, fadeout(#000, 95%), 70%, fadeout(#000, 75%), 100%);
         .border-radius(0.5em 0.5em 0 0);
         padding: 0.25em 1em;

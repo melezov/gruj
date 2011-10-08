@@ -7,20 +7,22 @@
         <a href="https://github.com/melezov/gruj" rel="external" title="GRUJ on GitHub">GitHub</a>
         and simply run the thing locally.
       </p>
+
       <h4>Required steps:</h4>
       <p>
         Branch the project or download and extract it to some folder.
-        <pre>user@box:~$ <em class="command">bzr branch lp:gruj</em>
-Branched x revision(s).
-user@box:~$ <em class="command">cd gruj</em></pre>
       </p>
+      <pre>user@box:~$ <strong class="command">bzr branch lp:gruj</strong>
+Branched x revision(s).
+user@box:~$ <strong class="command">cd gruj</strong></pre>
 
       <p>
         Run prepare-workspace.sh (or .bat if on Windoze).
         This will fire up GRUJ and download SBT 0.11.x launcher from Typesafe repos.
         Although the launcher download will only take a few seconds, the update process
         could take a while if you do not have the dependancies in your ivy cache already.
-        <pre>user@box:~/gruj$ <em class="command">./prepare-workspace.sh</em>
+      </p>
+      <pre>user@box:~/gruj$ <strong class="command">./prepare-workspace.sh</strong>
 Performing dependancy update for all projects ...
 Will also create Eclipse .project and .classpath files ...
 Disabling JRebel for faster compilation
@@ -42,14 +44,15 @@ Disabling JRebel for faster compilation
 [info] Done updating.
 [info] Updating {file:~/code/gruj/}Core...
 [info] Done updating.
-[<em class="ok">success</em>] Total time: 0 s, completed Oct 8, 2011 3:59:54 PM
+[<strong class="ok">success</strong>] Total time: 0 s, completed Oct 8, 2011 3:59:54 PM
 [info] About to create an Eclipse project for you.
 [info] Please hang on, because it might be necessary to perform one or more updates and this might take some time ...
 [info] Successfully created Eclipse project files. Please select the appropriate Eclipse plugin for Scala 2.9.1!</pre>
-      </p>
+
       <p>
         So far so good. You only need to run the thing now with jetty-run.sh (or .bat):
-        <pre>user@box:~/gruj$ <em class="command">lift/jetty-run.sh</em>
+      </p>
+      <pre>user@box:~/gruj$ <strong class="command">lift/jetty-run.sh</strong>
 Starting Lift, firing up Jetty ...
 Will run SBT in loop mode
 Firing up Jetty ...
@@ -70,8 +73,10 @@ Firing up Jetty ...
 [info] NO JSP Support for /, did not find org.apache.jasper.servlet.JspServlet
 [info] started o.e.j.w.WebAppContext{/,[file:~/code/gruj/lift/src/main/webapp/]}
 [info] Started SelectChannelConnector@0.0.0.0:8071 STARTING
-[<em class="ok">success</em>] Total time: 20 s, completed Oct 8, 2011 4:00:48 PM
+[<strong class="ok">success</strong>] Total time: 20 s, completed Oct 8, 2011 4:00:48 PM
 1. Waiting for source changes... (press enter to interrupt)</pre>
+
+      <p>
         Voila! Your local website should be up and running on port 8071.<br/>
         Go check it out: <a href="http://localhost:8071/">http://localhost:8071/</a>
       </p>
