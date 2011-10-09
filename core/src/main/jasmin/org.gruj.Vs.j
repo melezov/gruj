@@ -304,7 +304,7 @@ SA_end:
 ;  \   Parsing finished, start program ||
 ;   ^==================================++
 
-    ldc "Starting gruj v0.1.3 with parameters:"
+    ldc "Starting GRUJ v0.1.3 with parameters:"
     iload_3 ; [quiet]
     invokestatic org/gruj/Vs.info(Ljava/lang/String;Z)V
 
