@@ -24,6 +24,15 @@ case class Tab(
 
 //  -------------------------------------------
 
+/** ExampleTabs shows how to persist user tab selection between page refreshes.
+  * Every time a user changes a tab, a "ping" message is sent to the
+  * server, and the user selection stored inside the ExampleTabs.Active SessionVar.
+  * When a page is refreshed, only the last tab the user selected will get an
+  * "active" class attribute, whilts others being set to "hidden".
+  * This method also allows for complete functionality even without javascript,
+  * because if javascript is not present, the user is redirected back to the
+  * same page, but with the SessionVar being changed it will show new tab content. */
+
 object ExampleTabs extends DispatchPF {
   val Section = "examples"
 

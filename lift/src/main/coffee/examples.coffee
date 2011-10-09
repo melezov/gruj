@@ -15,11 +15,11 @@ $ ->
       $(@).addClass 'active'
 
       # persist last view in Active SessionVar
-      url = $(this).find('a').attr 'href'
+      url = $(@).find('a').attr 'href'
       url = url.replace('#', '/')
       $.get("#{url}/ping")
 
       # show new tab content
-      id = $(this).attr('id')
+      id = $(@).attr 'id'
       $('.post.tab').hide()
       $("##{id}-tab").show()

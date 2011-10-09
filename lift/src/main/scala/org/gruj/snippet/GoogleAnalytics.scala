@@ -18,6 +18,12 @@ object GoogleAnalytics {
     case _ => Disabled
   }
 
+/** If lift is being run in production mode, try to read the
+  * ga.ptc (Google Analytics Page Tracking Code) property.
+  * Then create a javascript variable with the said code,
+  * and name it with the value which was hard-coded in the
+  * google-analytics.html snippet */
+
   def injectTrackingCode(scripts: NodeSeq) =
    for(name <- S.attr("name"); value <- Props.get("ga.ptc"))
       yield scripts.bind("ga", "ptc" -> Script(JsCrVar(name, value)))
