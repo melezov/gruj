@@ -41,10 +41,23 @@
 
       <h4>Required steps:</h4>
       <p>
-        Branch the project or download and extract it to some folder.
+        Branch the project from Launchpad or download and extract it to some folder.
       </p>
       <pre>user@box:~$ <strong class="command">bzr branch lp:gruj</strong>
 Branched x revision(s).
+user@box:~$ <strong class="command">cd gruj</strong></pre>
+
+      <p>
+        &hellip; alternatively, clone from GitHub:
+      </p>
+
+      <pre>user@box:~$ <strong class="command">git clone git://github.com/melezov/gruj.git</strong>
+Cloning into gruj...
+remote: Counting objects: 434, done.
+remote: Compressing objects: 100% (374/374), done.
+remote: Total 434 (delta 105), reused 329 (delta 0)
+Receiving objects: 100% (434/434), 606.70 KiB | 273 KiB/s, done.
+Resolving deltas: 100% (105/105), done.
 user@box:~$ <strong class="command">cd gruj</strong></pre>
 
       <p>
@@ -91,20 +104,21 @@ Firing up Jetty ...
 [info]   Checksum: 5B15BA0FC63E355D47293DEF4BC2E58DA6F03787 [delete on mismatch]
 [info]   URL: http://typesafe.artifactoryonline.com/typesafe/ivy-releases/org.scala-tools.sbt/sbt-launch/0.11.0/sbt-launch.jar
 [info]   File: project/strap/sbt-launch-0.11.0.jar
-[info]   Pass-through parameters: "project Lift" "~container:start"
+[info]   Pass-through parameters: "project Lift" "container:start" "~container:reload /" "container:stop"
 [info] Cached file exists, calculated checksum: 5B15BA0FC63E355D47293DEF4BC2E58DA6F03787 [ok]
 [info] Running main class: xsbt.boot.Boot ...
 [info] Loading project definition from ~/code/gruj/project
 [info] Set current project to Gruj - Core (in build file:~/code/gruj/)
 [info] Set current project to Gruj - Lift (in build file:~/code/gruj/)
+[info] Compiling 2 Java sources to ~/code/gruj/core/target/scala-2.9.1/classes...
 [info] Compiling 4 Scala sources to ~/code/gruj/lift/target/scala-2.9.1/classes...
-[info] Compiling 1 less files to ~/code/gruj/lift/src/main/webapp/static/less
 [info] Compiling 3 CoffeeScripts to ~/code/gruj/lift/src/main/webapp/static/coffee
+[info] Compiling 1 less files to ~/code/gruj/lift/src/main/webapp/static/less
 [info] jetty-7.5.2.v20111006
 [info] NO JSP Support for /, did not find org.apache.jasper.servlet.JspServlet
 [info] started o.e.j.w.WebAppContext{/,[file:~/code/gruj/lift/src/main/webapp/]}
 [info] Started SelectChannelConnector@0.0.0.0:8071 STARTING
-[<strong class="ok">success</strong>] Total time: 20 s, completed Oct 8, 2011 4:00:48 PM
+[<strong class="ok">success</strong>] Total time: 30 s, completed Oct 8, 2011 4:00:48 PM
 1. Waiting for source changes... (press enter to interrupt)</pre>
 
       <p>
