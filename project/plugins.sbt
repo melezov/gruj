@@ -20,18 +20,6 @@ resolvers += "Siasia repo" at "http://siasia.github.com/maven2"
 libraryDependencies <+= sbtVersion(v => "com.github.siasia" %% "xsbt-web-plugin" % (v+"-0.2.4"))
 
 // +------------------------------------------------------------------------------------+
-// | Proguard plugin (https://github.com/siasia/xsbt-proguard-plugin)                   |
-// | Optimizes bytecode and shrinks jar releases by removing unreferenced entities.     |
-// |                                                                                    |
-// | See also: Proguard homepage (http://proguard.sourceforge.net/)                     |
-// +------------------------------------------------------------------------------------+
-
-// (repository already added above)
-// resolvers += "Siasia repo" at "http://siasia.github.com/maven2"
-
-addSbtPlugin("com.github.siasia" % "xsbt-proguard-plugin" % "0.1")
-
-// +------------------------------------------------------------------------------------+
 // | CoffeeScripted SBT (https://github.com/softprops/coffeescripted-sbt)               |
 // | Automates "compilation" of coffeescript files (/src/main/*.coffee) into javascript |
 // |                                                                                    |
