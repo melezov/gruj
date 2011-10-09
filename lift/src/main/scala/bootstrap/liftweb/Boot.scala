@@ -29,6 +29,10 @@ class Boot {
 
   LiftRules.dispatch.append(ExampleTabs)
 
+  LiftRules.jsArtifacts = JQuery14Artifacts
+  LiftRules.stripComments.default.set(() => false)
+
+  // Comment out this block to send XHTML instead of HTML5
   LiftRules.htmlProperties.default.set((r: Req) =>
     new XHtmlInHtml5OutProperties(r.userAgent)
   )

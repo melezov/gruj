@@ -176,6 +176,10 @@ dd + dt {
   }
 }
 
+#mushroom-holder {
+  height: 0;
+}
+
 #mushroom {
   background: url('../img/mushroom.png') no-repeat center;
   z-index: -1;
@@ -183,10 +187,6 @@ dd + dt {
   position: relative;
   left: -8px;
   top: -75px;
-}
-
-#gljiva {
-  height: 0;
 }
 
 #nav {
@@ -352,6 +352,13 @@ a {
 
   &.github {
     background: url('@{image-path}ext/github-dark.png') no-repeat left center;
+    padding-left: 20px;
+  }
+}
+
+span {
+  &.copyleft {
+    background: url('@{image-path}ext/copyleft.png') no-repeat left center;
     padding-left: 20px;
   }
 }

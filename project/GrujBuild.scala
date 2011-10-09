@@ -9,7 +9,7 @@ object BuildSettings {
   val bsCore = Defaults.defaultSettings ++ Seq(
     organization  := buildOrganization,
     name          := "Gruj - Core",
-    version       := "0.2.1",
+    version       := "0.1.3",
     scalaVersion  := buildScalaVersion,
     scalacOptions := buildScalacOptions
   )
@@ -36,10 +36,6 @@ object Dependencies {
     "net.liftweb" %% "lift-webkit" % liftVersion % "compile"
   )
 
-  val commons = Seq(
-    "commons-io" % "commons-io" % "2.0.1"
-  )
-
   val logback = "ch.qos.logback" % "logback-classic" % "0.9.30" % "compile->default"
 
   val scalatest = "org.scalatest" %% "scalatest" % "1.6.1" % "test"
@@ -61,14 +57,13 @@ object TemplaterBuild extends Build {
   import less.Plugin._
   import LessKeys._
 
-  val depsCore = commons ++ Seq(
+  val depsCore = Seq(
     scalatest
   )
 
-  val depsLift = commons ++ liftweb ++ Seq(
+  val depsLift = liftweb ++ Seq(
     jetty,
-    logback,
-    scalatest
+    logback
   )
 
   lazy val core = Project(

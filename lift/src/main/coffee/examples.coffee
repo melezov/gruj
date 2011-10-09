@@ -1,4 +1,8 @@
 $ ->
+  # -----------------------------------------------------
+  # /examples coffeescripts
+  # -----------------------------------------------------
+
   # tab click handler
   $('.tabbar li.column').click (e) ->
     e.preventDefault()

@@ -23,7 +23,7 @@ do
       ;;
     "~lift")
       echo "Firing up Jetty ..."
-      SBT_PARAMS="$SBT_PARAMS ~container:start"
+      SBT_PARAMS="$SBT_PARAMS container:start \"~container:reload /\" container:stop"
       JREBEL_PLUGINS="$JREBEL_PLUGINS -Drebel.lift_plugin=true"
       ;;
     "--no-jrebel")
