@@ -1,5 +1,5 @@
 ; +===============================================++
-;  \  GRUJ v0.1.3 - 2011-10-07 - http://gruj.org/ ||
+;  \  GRUJ v0.1.4 - 2011-10-10 - http://gruj.org/ ||
 ;   ^=============================================++
 
  .class public org/gruj/Vs
@@ -131,7 +131,7 @@ OUT_quiet:
       ldc "  -q        ~ Quiet mode - do not output info messages to stdout"
       iload_3 ; [quiet]
       invokestatic org/gruj/Vs.info(Ljava/lang/String;Z)V
-      ldc "  -c[hash]  ~ Check the file againts SHA-1 or MD5 checksum"
+      ldc "  -c[hash]  ~ Check the file against SHA-1 or MD5 checksum"
       iload_3 ; [quiet]
       invokestatic org/gruj/Vs.info(Ljava/lang/String;Z)V
       ldc "  -d        ~ Delete the cached file on checksum mismatch"
@@ -304,7 +304,7 @@ SA_end:
 ;  \   Parsing finished, start program ||
 ;   ^==================================++
 
-    ldc "Starting GRUJ v0.1.3 with parameters:"
+    ldc "Starting GRUJ v0.1.4 with parameters:"
     iload_3 ; [quiet]
     invokestatic org/gruj/Vs.info(Ljava/lang/String;Z)V
 
