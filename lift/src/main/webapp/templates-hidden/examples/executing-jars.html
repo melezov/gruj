@@ -1,6 +1,167 @@
 <lift:children>
-      <h3>Excercizes with class loaders</h3>
+      <h3>Downloading and executing jars (in detail)</h3>
       <p>
-        &lt;work in progress&gt;
+        Consider the following two classes:
       </p>
+      <pre><span class="keyword">package</span> org.gruj.examples;
+
+<span class="keyword">public</span> <span class="keyword">final</span> <span class="keyword">class</span> HelloWorld {
+  <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">void</span> main(<span class="keyword">final</span> String[] args) {
+    System.<span class="static">out</span>.println(<span class="string">"Hello, world!"</span>);
+  }
+}</pre>
+      <pre><span class="keyword">package</span> org.gruj.examples;
+
+<span class="keyword">public</span> <span class="keyword">final</span> <span class="keyword">class</span> GoodbyeWorld {
+  <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">void</span> main(<span class="keyword">final</span> String[] args) {
+    System.<span class="static">out</span>.println(<span class="string">"Goodbye, cruel world!"</span>);
+  }
+}</pre>
+
+      <p>
+        We will compile the two classes into a hw.jar file and include a
+        META-INF/MANIFEST.MF file with the following Main-Class attribute specified:
+      </p>
+
+      <pre>Manifest-Version: 1.0
+Main-Class: <span class="main-class">org.gruj.examples.HelloWorld</span></pre>
+
+      <p>
+        Now the file is put online and is available at the following URL:<br/>
+        <a href="http://gruj.org/examples/hw.jar">http://gruj.org/examples/hw.jar</a>
+      </p>
+
+      <p>
+        In order to download and execute the hw.jar file, you need specify the said
+        URL and the path to which GRUJ will download the jar:
+      </p>
+
+      <pre>user@box:~$ <strong class="command">java -jar gruj.jar http://gruj.org/examples/hw.jar heya.jar</strong>
+[info] Starting gruj v0.1.3 with parameters:
+[info]   URL: http://gruj.org/examples/hw.jar
+[info]   File: heya.jar
+[info] Downloading file (http://gruj.org/examples/hw.jar) ...
+[info] Writing file (~/heya.jar) ...
+[info] Running main class: org.gruj.examples.HelloWorld ...
+Hello, world!</pre>
+
+      <p>
+        If you execute the same command again, GRUJ will not download anything, but rather
+        use the already downloaded file instead:
+      </p>
+
+      <pre>user@box:~$ <strong class="command">java -jar gruj.jar http://gruj.org/examples/hw.jar heya.jar</strong>
+[info] Starting gruj v0.1.3 with parameters:
+[info]   URL: http://gruj.org/examples/hw.jar
+[info]   File: heya.jar
+[info] Running main class: org.gruj.examples.HelloWorld ...
+Hello, world!</pre>
+
+      <p>
+        As shown, GRUJ runs the default main class by looking up the Main-Class attribute
+        in the MANIFEST.MF files, but you can override this with the <strong>-m</strong> switch:
+      </p>
+
+      <pre>user@box:~$ java -jar gruj.jar <strong class="command">-morg.gruj.examples.GoodbyeWorld</strong> http://gruj.org/examples/hw.jar heya.jar
+[info] Starting gruj v0.1.3 with parameters:
+[info]   URL: http://gruj.org/examples/hw.jar
+[info]   File: heya.jar
+[info]   Main class: org.gruj.examples.GoodbyeWorld
+[info] Running main class: org.gruj.examples.GoodbyeWorld ...
+Goodbye, cruel world!</pre>
+
+      <p>
+        If you wish, you can use the <strong>-m</strong> switch without any class specified,
+        which tells GRUJ not to execute it, but rather to just download the file (and optionally verify the checksum).
+      </p>
+
+      <pre>user@box:~$ java -jar gruj.jar <strong class="command">-m</strong> http://gruj.org/examples/hw.jar heya.jar
+[info] Starting gruj v0.1.3 with parameters:
+[info]   URL: http://gruj.org/examples/hw.jar
+[info]   File: heya.jar
+[info]   Main class: [N/A]
+[info] Will not run main class, exiting!</pre>
+
+      <p>
+        The SHA-1 checksum of hw.jar is 9B6C7EECD8163E0AE8D231760244F8062516FAE0<br/>
+        We can use the <strong>-c</strong> switch to match against the said checksum.
+      </p>
+
+      <pre>user@box:~$ java -jar gruj.jar -m <strong class="command">-c9B6C7EECD8163E0AE8D231760244F8062516FAE0</strong> http://gruj.org/examples/hw.jar heya.jar
+[info] Starting gruj v0.1.3 with parameters:
+[info]   Checksum: 9B6C7EECD8163E0AE8D231760244F8062516FAE0
+[info]   URL: http://gruj.org/examples/hw.jar
+[info]   File: heya.jar
+[info]   Main class: [N/A]
+[info] Cached file exists, calculated checksum: 9B6C7EECD8163E0AE8D231760244F8062516FAE0 [ok]
+[info] Will not run main class, exiting!</pre>
+
+      <p>
+        Let's take a look at other options, by invoking GRUJ without arguments:
+      </p>
+
+      <pre>user@box:~$ <strong class="command">java -jar gruj.jar</strong>
+[info] Usage:
+[info]   java -jar gruj.jar [options] url/src.jar [path/]target.jar [arguments]
+[info] Options:
+[info]   -q        ~ Quiet mode - do not output info messages to stdout
+[info]   -c[hash]  ~ Check the file againts SHA-1 or MD5 checksum
+[info]   -d        ~ Delete the cached file on checksum mismatch
+[info]   -m[class] ~ Override main class or pass empty to skip run</pre>
+
+      <p>
+        You can see that there is also the <strong>-d</strong> switch we haven't mentioned,
+        and this one is used when a checksum mismatch occurs.<br/>
+        This is what happens on a checksum mismatch without the switch:
+      </p>
+
+      <pre>user@box:~$ java -jar gruj.jar -m <strong class="command">-c9B6C7EECD8163E0AE8D231760244F8062516FAE<em>1</em></strong> http://gruj.org/examples/hw.jar heya.jar
+[info] Starting gruj v0.1.3 with parameters:
+[info]   Checksum: 9B6C7EECD8163E0AE8D231760244F8062516FAE1
+[info]   URL: http://gruj.org/examples/hw.jar
+[info]   File: heya.jar
+[info]   Main class: [N/A]
+[info] Cached file exists, calculated checksum: 9B6C7EECD8163E0AE8D231760244F8062516FAE0 [MISMATCH!]
+[error] Cached file checksum could not be matched, will not delete!</pre>
+
+      <p>
+        When we provide the <strong>-d</strong> switch, GRUJ will delete the file and
+        try to download the correct version from the provided URL. In this example it
+        will fail, but this is because we have provided the wrong checksum in the first place:
+      </p>
+
+      <pre>user@box:~$ java -jar gruj.jar -m <strong class="command">-d -c9B6C7EECD8163E0AE8D231760244F8062516FAE<em>1</em></strong> http://gruj.org/examples/hw.jar heya.jar
+[info] Starting gruj v0.1.3 with parameters:
+[info]   Checksum: 9B6C7EECD8163E0AE8D231760244F8062516FAE1 [delete on mismatch]
+[info]   URL: http://gruj.org/examples/hw.jar
+[info]   File: heya.jar
+[info]   Main class: [N/A]
+[info] Cached file exists, calculated checksum: 9B6C7EECD8163E0AE8D231760244F8062516FAE0 [MISMATCH!]
+[info] Deleted invalidated cached file!
+[info] Downloading file (http://gruj.org/examples/hw.jar) ...
+[info] File downloaded, calculated checksum: 9B6C7EECD8163E0AE8D231760244F8062516FAE0 [MISMATCH!]
+[error] Downloaded file does not match provided checksum, exiting!</pre>
+
+      <p>
+        At this point in time, hw.jar has been deleted from the local path, because it did not
+        match the provided checksum, and it has not been downloaded since it failed to match again.
+        Let's now revert back to the proper SHA-1 hash and use that, to download the file again,
+        verify the checksum and execute the default main class:
+      </p>
+
+      <pre>user@box:~$ <strong class="command">java -jar gruj.jar -d -c9B6C7EECD8163E0AE8D231760244F8062516FAE0 http://gruj.org/examples/hw.jar heya.jar</strong>
+[info] Starting gruj v0.1.3 with parameters:
+[info]   Checksum: 9B6C7EECD8163E0AE8D231760244F8062516FAE0 [delete on mismatch]
+[info]   URL: http://gruj.org/examples/hw.jar
+[info]   File: heya.jar
+[info] Downloading file (http://gruj.org/examples/hw.jar) ...
+[info] File downloaded, calculated checksum: 9B6C7EECD8163E0AE8D231760244F8062516FAE0 [ok]
+[info] Writing file (~/heya.jar) ...
+[info] Running main class: org.gruj.examples.HelloWorld ...
+Hello, world!</pre>
+
+      <p>
+        Congratulations &ndash; you are now a certified GRUJ user!
+      </p>
+
 </lift:children>
