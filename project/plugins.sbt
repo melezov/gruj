@@ -10,10 +10,10 @@ resolvers += Classpaths.typesafeResolver
 
 addSbtPlugin("com.typesafe.sbteclipse" % "sbteclipse" % "1.4.0")
 
-// +------------------------------------------------------------------------------------+
-// | XSBT Web plugin (https://github.com/siasia/xsbt-web-plugin)                        |
-// | Implements SBT 0.7.x Web project actions: "jetty-run", "prepare-webapp", etc ...   |
-// +------------------------------------------------------------------------------------+
+// +-------------------------------------------------------------------------------------+
+// | XSBT Web plugin (https://github.com/siasia/xsbt-web-plugin)                         |
+// | Implements SBT 0.7.x Web project actions: "jetty-run" -> "container:start", etc ... |
+// +-------------------------------------------------------------------------------------+
 
 resolvers += "Siasia repo" at "http://siasia.github.com/maven2"
 
