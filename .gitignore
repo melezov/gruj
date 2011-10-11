@@ -6,8 +6,6 @@ target
 
 lift/src/main/webapp/static/coffee/*.js
 lift/src/main/webapp/static/less/*.css
-lift/src/main/webapp/WEB-INF/classes
-lift/src/main/webapp/WEB-INF/lib
 
 lift/logs/lift/*.log
 lift/logs/nginx/*.log

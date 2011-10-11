@@ -9,7 +9,7 @@ object BuildSettings {
   val bsCore = Defaults.defaultSettings ++ Seq(
     organization  := buildOrganization,
     name          := "Gruj - Core",
-    version       := "0.1.3",
+    version       := "0.1.4",
     scalaVersion  := buildScalaVersion,
     scalacOptions := buildScalacOptions
   )
@@ -17,7 +17,7 @@ object BuildSettings {
   val bsLift = Defaults.defaultSettings ++ Seq(
     organization  := buildOrganization,
     name          := "Gruj - Lift",
-    version       := "0.1.1",
+    version       := "0.1.2",
     scalaVersion  := buildScalaVersion,
     scalacOptions := buildScalacOptions
   )
@@ -29,7 +29,7 @@ object Resolvers {
 }
 
 object Dependencies {
-  val jetty  = "org.eclipse.jetty" % "jetty-webapp" % "7.5.2.v20111006" % "container"
+  val jetty  = "org.eclipse.jetty" % "jetty-webapp" % "8.0.2.v20111006" % "container"
 
   val liftVersion = "2.4-M4"
   val liftweb = Seq(
