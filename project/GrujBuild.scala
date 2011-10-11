@@ -83,7 +83,7 @@ object TemplaterBuild extends Build {
       libraryDependencies := depsLift
     ) ++ webSettings  ++ Seq(
       port in config("container") := 8071,
-      scanDirectories := Nil
+      scanDirectories in Compile := Nil
     ) ++ coffeeSettings ++ Seq(
       targetDirectory in Coffee <<= (webappResources in Compile)(_.get.head / "static" / "coffee")
     ) ++ lessSettings ++ Seq(
