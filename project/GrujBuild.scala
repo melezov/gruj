@@ -17,7 +17,7 @@ object BuildSettings {
   val bsLift = Defaults.defaultSettings ++ Seq(
     organization  := buildOrganization,
     name          := "Gruj - Lift",
-    version       := "0.1.2",
+    version       := "0.1.3",
     scalaVersion  := buildScalaVersion,
     scalacOptions := buildScalacOptions
   )
