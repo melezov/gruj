@@ -32,10 +32,27 @@ class Boot {
   LiftRules.jsArtifacts = JQuery14Artifacts
   LiftRules.stripComments.default.set(() => false)
 
-  // Comment out this block to send XHTML instead of HTML5
-  LiftRules.htmlProperties.default.set((r: Req) =>
-    new XHtmlInHtml5OutProperties(r.userAgent)
-  )
-
   LiftRules.early.append(_.setCharacterEncoding("UTF-8"))
+
+/*
+  // Use this block to send HTML5
+  LiftRules.htmlProperties.default.set((r: Req) =>
+    XHtmlInHtml5OutProperties(r.userAgent).
+      setDocType(()=>Full(DocType.xhtmlStrict))
+  )
+*/
+
+/*
+  ##############################################
+  The following does not work, since whatever we
+  setup in setDocType will always result in
+  XHTML Transitional.
+  ##############################################
+*/
+
+  // Use this block to send XHTML 1.1
+  LiftRules.htmlProperties.default.set((r: Req) => {
+    new OldHtmlProperties(r.userAgent).
+      setDocType(() => Full(DocType.xhtml11))
+  })
 }
