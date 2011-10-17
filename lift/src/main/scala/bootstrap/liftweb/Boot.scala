@@ -37,8 +37,7 @@ class Boot {
 /*
   // Use this block to send HTML5
   LiftRules.htmlProperties.default.set((r: Req) =>
-    XHtmlInHtml5OutProperties(r.userAgent).
-      setDocType(()=>Full(DocType.xhtmlStrict))
+    XHtmlInHtml5OutProperties(r.userAgent)
   )
 */
 
