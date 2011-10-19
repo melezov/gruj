@@ -41,7 +41,7 @@ object Dependencies {
   val scalatest = "org.scalatest" %% "scalatest" % "1.6.1" % "test"
 }
 
-object TemplaterBuild extends Build {
+object GrujBuild extends Build {
   import BuildSettings._
   import Resolvers._
   import Dependencies._
@@ -82,7 +82,7 @@ object TemplaterBuild extends Build {
       resolvers := resLift,
       libraryDependencies := depsLift
     ) ++ webSettings  ++ Seq(
-      port in config("container") := 8071,
+      port in container.Configuration := 8071,
       scanDirectories in Compile := Nil
     ) ++ coffeeSettings ++ Seq(
       targetDirectory in Coffee <<= (webappResources in Compile)(_.get.head / "static" / "coffee")
