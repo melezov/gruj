@@ -1,9 +1,39 @@
 ; +===============================================++
-;  \  GRUJ v0.1.4 - 2011-10-10 - http://gruj.org/ ||
+;  \  GRUJ v0.2.0 - 2011-11-01 - http://gruj.org/ ||
 ;   ^=============================================++
 
- .class public org/gruj/Vs
+.class public org/gruj/Vs
 .super java/lang/Object
+
+; +=====================================================++
+;  \   If the boolean value passed is true, this method ||
+;   \  will System.out.println the provided String      ||
+;    ^==================================================++
+
+.method private static info(Ljava/lang/String;Z)V
+  ;{
+    .limit locals 2
+    .limit stack 3
+
+    iload_1
+    ifne OUT_quiet
+    ;{
+      getstatic java/lang/System/out Ljava/io/PrintStream;
+      ldc "[info] "
+      aload_0
+      invokestatic org/gruj/Vs.cat(Ljava/lang/String;Ljava/lang/Object;)Ljava/lang/String;
+      invokevirtual java/io/PrintStream/println(Ljava/lang/String;)V
+    ;}
+
+OUT_quiet:
+    return
+  ;}
+.end method
+
+; +====================================================++
+;  \   Concatenates an Object.toString() to a String;  ||
+;   \  if Object is a null it will cat "[N/A]" instead ||
+;    ^=================================================++
 
 .method private static cat(Ljava/lang/String;Ljava/lang/Object;)Ljava/lang/String;
   ;{
@@ -18,34 +48,98 @@
     ;{
       pop
       aload_1
-      invokestatic java/lang/String.valueOf(Ljava/lang/Object;)Ljava/lang/String;
+      invokevirtual java/lang/Object.toString()Ljava/lang/String;
     ;}
-CT_null:
 
+CT_null:
     invokevirtual java/lang/String.concat(Ljava/lang/String;)Ljava/lang/String;
     areturn
   ;}
 .end method
 
-.method private static info(Ljava/lang/String;Z)V
+; +======================================================++
+;  \     This method is used for all sorts of retrievals ||
+;   \    * reading a file from the drive via (file:)     ||
+;    \   * downloading files (http:, ftp:, etc...)       ||
+;     \  * reading a classpath resource (jar:file:)      ||
+;      ^=================================================++
+
+.method private static get(Ljava/net/URL;Ljava/lang/String;Z)[B
   ;{
-    .limit locals 2
-    .limit stack 4
+    .limit locals 40
+    .limit stack 30
+    .catch all from GT_read to GT_error using GT_error
 
-    iload_1
-    ifne OUT_quiet
     ;{
-      getstatic java/lang/System/out Ljava/io/PrintStream;
-      ldc "[info] "
-      aload_0
-      invokestatic org/gruj/Vs.cat(Ljava/lang/String;Ljava/lang/Object;)Ljava/lang/String;
-      invokevirtual java/io/PrintStream/println(Ljava/lang/String;)V
-    ;}
-OUT_quiet:
+      ldc "Reading"
+      aload_1 ; [action]
+      ifnull GT_def_msg
+      ;{
+        pop     ; Default message is "Reading file (...) ..."
+        aload_1 ; can be overriden if arg 1 is not null
+      ;}
 
-    return
+GT_def_msg:
+      ldc " file ("
+      invokestatic org/gruj/Vs.cat(Ljava/lang/String;Ljava/lang/Object;)Ljava/lang/String;
+      aload_0 ; [URL]
+      invokestatic org/gruj/Vs.cat(Ljava/lang/String;Ljava/lang/Object;)Ljava/lang/String;
+      ldc ") ..."
+      invokestatic org/gruj/Vs.cat(Ljava/lang/String;Ljava/lang/Object;)Ljava/lang/String;
+
+      iload_2 ; [quiet]
+      invokestatic org/gruj/Vs.info(Ljava/lang/String;Z)V
+    ;}
+
+GT_quiet:
+    new java/io/BufferedInputStream
+    dup
+    aload_0 ; [URL]
+    invokevirtual java/net/URL.openStream()Ljava/io/InputStream;
+    invokespecial java/io/BufferedInputStream.<init>(Ljava/io/InputStream;)V
+    astore_1 ; [BIS]
+
+GT_read:
+    new java/io/ByteArrayOutputStream
+    dup
+    invokespecial java/io/ByteArrayOutputStream.<init>()V
+
+GT_loop:
+    dup
+    aload_1 ; [BIS]
+    invokevirtual java/io/InputStream.read()I
+
+    dup
+    iconst_m1
+    if_icmpeq GT_loop_end
+    ;{
+      invokevirtual java/io/ByteArrayOutputStream.write(I)V
+      goto GT_loop
+    ;}
+
+GT_loop_end:
+    pop2
+
+    aload_1 ; [BIS]
+    invokevirtual java/io/InputStream.close()V
+
+    invokevirtual java/io/ByteArrayOutputStream.toByteArray()[B
+    areturn
+
+; +==================================++
+;  \  Close the InputStream on error ||
+;   ^================================++
+
+GT_error:
+    aload_1 ; [BIS]
+    invokevirtual java/io/InputStream.close()V
+    athrow
   ;}
 .end method
+
+; +===========================++
+;  \  Application entry point ||
+;   ^=========================++
 
 .method public static main([Ljava/lang/String;)V
   ;{
@@ -68,7 +162,7 @@ OUT_quiet:
 ;  1 : [foo]       - temporary variable 1
 ;  2 : [bar]       - temporary variable 2
 ;  3 : [quiet]     - quiet [false by default, used in call to info method]
-;  4 : [argLen]    - length of init args array
+;  4 : [argsLen]   - length of init args array
 ;  5 : [delete]    - delete [false by default]
 ;  6 : [checksum]  - checksum [String, optional (can be null)]
 ;  7 : [mainClass] - mainClass [String, optional (can be "")]
@@ -77,12 +171,16 @@ OUT_quiet:
 ; 10 : [checkType] - checksum type [String, optional (can by null)]
 ; 11 : [body]      - buffer for reading, checking digest and writing
 
-; +=========================================================++
-;  \  Initialize the local variables, args are already in 0 ||
-;   ^=======================================================++
+; +============================================================++
+;  \  Initialize the "global" variables, args are already in 0 ||
+;   ^==========================================================++
 
     iconst_0
     istore_3 ; [quiet]
+
+    aload_0 ; [args]
+    arraylength
+    istore 4 ; [argsLen]
 
     iconst_0
     istore 5 ; [delete]
@@ -93,6 +191,83 @@ OUT_quiet:
     aconst_null
     astore 7 ; [mainClass]
 
+; +==============================================++
+;  \   Load gruj.default file from the classpath ||
+;   \  and prepend its arguments to the args [0] ||
+;    ^===========================================++
+
+    ;{
+      ldc "org.gruj.Vs"
+      invokestatic java/lang/Class/forName(Ljava/lang/String;)Ljava/lang/Class;
+      invokevirtual java/lang/Class/getClassLoader()Ljava/lang/ClassLoader;
+
+      ldc "gruj.default"
+      invokevirtual java/lang/ClassLoader.getResource(Ljava/lang/String;)Ljava/net/URL;
+      astore_1 ; [res]
+    ;}
+
+    aload_1 ; [res]
+    ifnull GD_skip
+    ;{
+      new java/lang/String
+      dup
+      ;{
+        aload_1 ; [res]
+        aconst_null
+        iconst_1 ; don't output message
+        invokestatic org/gruj/Vs.get(Ljava/net/URL;Ljava/lang/String;Z)[B
+      ;}
+      ldc "UTF-8"
+      invokespecial java/lang/String.<init>([BLjava/lang/String;)V
+
+      ldc "\r\n|[\n\r]" ; split via PC, Unix and Mac newlines
+      invokevirtual java/lang/String.split(Ljava/lang/String;)[Ljava/lang/String;
+
+      dup
+      astore 8 ; [resArgs]
+      arraylength
+      dup
+      istore 9 ; [resArgsLen]
+
+      iload 4 ; [argsLen]
+      iadd
+      anewarray java/lang/String
+
+; +====================================++
+;  \  Join the two arrays of arguments ||
+;   ^==================================++
+
+      dup
+      astore_1 ; [newArgs]
+      arraylength
+      istore_2 ; [newArgsLen]
+
+      aload 8  ; [resArgs]
+      iconst_0
+      aload_1  ; [newArgs]
+      iconst_0
+      iload 9  ; [resArgsLen]
+      invokestatic java/lang/System.arraycopy(Ljava/lang/Object;ILjava/lang/Object;II)V
+
+      aload_0  ; [args]
+      iconst_0
+      aload_1  ; [newArgs]
+      iload 9  ; [resArgsLen]
+      iload 4  ; [argsLen]
+      invokestatic java/lang/System.arraycopy(Ljava/lang/Object;ILjava/lang/Object;II)V
+
+      aload_1   ; overwrite the initial arguments array
+      astore_0
+
+      iload_2   ; overwrite the initial arguments length
+      istore 4
+    ;}
+
+; +=================================================++
+;  \  Initialize the rest of the "global" variables ||
+;   ^===============================================++
+
+GD_skip:
     aconst_null
     astore 8 ; [URL]
 
@@ -105,19 +280,13 @@ OUT_quiet:
     aconst_null
     astore 11 ; [body]
 
-; +==============================================++
-;  \   Check if gruj was run with < 2 arguments, ||
-;   \  if that is so output usage and exit       ||
-;    ^===========================================++
+; +============================================++
+;  \   Check if gruj was run with 0 arguments, ||
+;   \  if that is so output usage and exit     ||
+;    ^=========================================++
 
-    aload_0 ; [args]
-    arraylength
-
-    dup
-    istore 4 ; [argLen]
-
-    iconst_2
-    if_icmpge EP_skip_usage
+    iload 4 ; [argLen]
+    ifne EP_skip_usage
     ;{
       ldc "Usage:"
       iload_3 ; [quiet]
@@ -149,9 +318,9 @@ DO_exit:
       return
     ;}
 
-; +=============================================++
-;  \   Ouputs an error, and exists with code -1 ||
-;   ^===========================================++
+; +==========================================++
+;  \  Ouput an error, and exist with code -1 ||
+;   ^========================================++
 
 error:
 ;{
@@ -166,19 +335,18 @@ error:
     goto DO_exit
 ;}
 
-EP_skip_usage:
-
 ; +===============================================++
 ;  \   Run a parse loop, checking for options     ||
 ;   \  starting with -, and set URL and file vars ||
 ;    ^============================================++
 
+EP_skip_usage:
     iconst_0
     istore_2 ; [bar]
 
 PL_continue:
     iload_2 ; [bar]
-    iload 4 ; [argLen]
+    iload 4 ; [argsLen]
 
     if_icmpge PL_end
     ;{
@@ -256,61 +424,41 @@ PL_not_option:
 PL_not_URL:
       astore 9 ; [file]
     ;}
+
+; +===============================================++
+;  \  Copy the remaining arguments to a new array ||
+;   ^=============================================++
+
 PL_end:
-
-; +================================================++
-;  \   Copy the remaining arguments to a new array ||
-;   ^==============================================++
-
-    iload 4 ; [argLen]
+    aload_0
     iload_2 ; [bar]
-    isub
-    dup
-
-    anewarray java/lang/String
-    iconst_m1
-
-SA_continue:
-
-    iload_2 ; [bar]
-    iload 4 ; [argLen]
-
-    if_icmpge SA_end
     ;{
-      iconst_1
-      iadd
-      dup2
-
-      aload_0 ; [args]
+      iload 4 ; [argsLen]
       iload_2 ; [bar]
-      iinc 2 1 ; [bar]
-      aaload
+      isub
+      dup
+      istore 4 ; [argsLen] (new)
 
-      aastore
-      goto SA_continue
+      anewarray java/lang/String
+      dup
+      astore_0 ; [args] (new)
     ;}
-SA_end:
+    iconst_0
+    iload 4 ; [argsLen]
+    invokestatic java/lang/System.arraycopy(Ljava/lang/Object;ILjava/lang/Object;II)V
 
 ; +===========================================++
 ;  \   After this point, var [args] hold only ||
 ;   \  the pass-through arguments (replaced)  ||
 ;    ^========================================++
 
-    pop
-    astore_0 ; [args]
-    istore 4 ; [argLen]
-
-; +====================================++
-;  \   Parsing finished, start program ||
-;   ^==================================++
-
-    ldc "Starting GRUJ v0.1.4 with parameters:"
+    ldc "Starting GRUJ v0.2.h0 with parameters:"
     iload_3 ; [quiet]
     invokestatic org/gruj/Vs.info(Ljava/lang/String;Z)V
 
-; +=============================++
-;  \   Echo checksum if defined ||
-;   ^===========================++
+; +============================++
+;  \  Echo checksum if defined ||
+;   ^==========================++
 
     aload 6 ; [checksum]
     ifnull SP_skip_checksum
@@ -325,26 +473,26 @@ SA_end:
         ldc " [delete on mismatch]"
         invokestatic org/gruj/Vs.cat(Ljava/lang/String;Ljava/lang/Object;)Ljava/lang/String;
       ;}
-SP_skip_delete:
 
+SP_skip_delete:
       iload_3 ; [quiet]
       invokestatic org/gruj/Vs.info(Ljava/lang/String;Z)V
     ;}
+
+; +============++
+;  \  Echo URL ||
+;   ^==========++
+
 SP_skip_checksum:
-
-; +=============++
-;  \   Echo URL ||
-;   ^===========++
-
     ldc "  URL: "
     aload 8 ; [URL]
     invokestatic org/gruj/Vs.cat(Ljava/lang/String;Ljava/lang/Object;)Ljava/lang/String;
     iload_3 ; [quiet]
     invokestatic org/gruj/Vs.info(Ljava/lang/String;Z)V
 
-; +==============++
-;  \   Echo File ||
-;   ^============++
+; +=============++
+;  \  Echo File ||
+;   ^===========++
 
     ldc "  File: "
     aload 9 ; [file]
@@ -352,9 +500,9 @@ SP_skip_checksum:
     iload_3 ; [quiet]
     invokestatic org/gruj/Vs.info(Ljava/lang/String;Z)V
 
-; +====================++
-;  \   Echo Main class ||
-;   ^==================++
+; +===================++
+;  \  Echo Main class ||
+;   ^=================++
 
     aload 7 ; [mainClass]
     ifnull SP_skip_mainClass
@@ -369,19 +517,19 @@ SP_skip_checksum:
         pop
         ldc "[N/A]"
       ;}
-SP_mainClass_set:
 
+SP_mainClass_set:
       invokestatic org/gruj/Vs.cat(Ljava/lang/String;Ljava/lang/Object;)Ljava/lang/String;
       iload_3 ; [quiet]
       invokestatic org/gruj/Vs.info(Ljava/lang/String;Z)V
     ;}
+
+; +================================++
+;  \  Echo Pass-through parameters ||
+;   ^==============================++
+
 SP_skip_mainClass:
-
-; +=================================++
-;  \   Echo Pass-through parameters ||
-;   ^===============================++
-
-    iload 4 ; [argLen]
+    iload 4 ; [argsLen]
     ifeq SP_skip
 
     ldc "  Pass-through parameters:"
@@ -390,7 +538,7 @@ SP_skip_mainClass:
 
 SP_continue:
     iload_1 ; [foo]
-    iload 4 ; [argLen]
+    iload 4 ; [argsLen]
 
     if_icmpge SP_end
     ;{
@@ -417,12 +565,11 @@ SP_end:
     iload_3 ; [quiet]
     invokestatic org/gruj/Vs.info(Ljava/lang/String;Z)V
 
+; +===============================++
+;  \  Determine the checksum type ||
+;   ^=============================++
+
 SP_skip:
-
-; +================================++
-;  \   Determine the checksum type ||
-;   ^==============================++
-
     aload 6 ; [checksum]
     ifnull CT_skip
     ;{
@@ -435,8 +582,8 @@ SP_skip:
         ldc "Checksum can only contain hexadecimal characters!"
         goto error
       ;}
-CT_chars_OK:
 
+CT_chars_OK:
       aload 6 ; [checksum]
       invokevirtual java/lang/String.length()I
 
@@ -447,8 +594,8 @@ CT_chars_OK:
         ldc "MD5"
         goto CT_set_method
       ;}
-CT_not_MD5:
 
+CT_not_MD5:
       dup
       bipush 40
       if_icmpne CT_not_SHA1
@@ -456,8 +603,8 @@ CT_not_MD5:
         ldc "SHA-1"
         goto CT_set_method
       ;}
-CT_not_SHA1:
 
+CT_not_SHA1:
       ldc "No checksum specified! (checksum must immediately follow the -c flag)"
       swap
       ifeq CT_report_empty
@@ -465,22 +612,20 @@ CT_not_SHA1:
         pop
         ldc "Invalid checksum length - it must either be 32 (MD5) or 40 (SHA-1) characters in length!"
       ;}
-CT_report_empty:
 
+CT_report_empty:
       goto error
 
 CT_set_method:
-
       astore 10 ; [checkType]
       pop
     ;}
 
+; +=============================++
+;  \  URL string initialization ||
+;   ^===========================++
+
 CT_skip:
-
-; +==============================++
-;  \   URL string initialization ||
-;   ^============================++
-
     aload 8 ; [URL]
     ifnonnull UC_not_null
     ;{
@@ -499,15 +644,13 @@ TH_error:
     invokestatic org/gruj/Vs.cat(Ljava/lang/String;Ljava/lang/Object;)Ljava/lang/String;
     ldc ")!"
     invokestatic org/gruj/Vs.cat(Ljava/lang/String;Ljava/lang/Object;)Ljava/lang/String;
-
     goto error
 
 UC_not_null:
-
     new java/net/URL
     dup
     aload 8 ; [URL]
-    invokenonvirtual java/net/URL.<init>(Ljava/lang/String;)V
+    invokespecial java/net/URL.<init>(Ljava/lang/String;)V
     astore 8 ; [URL]
 
 ; +===========================================++
@@ -516,11 +659,6 @@ UC_not_null:
 ;    ^========================================++
 
 UC_loaded:
-
-; +===============================++
-;  \   File string initialization ||
-;   ^=============================++
-
     aload 9 ; [file]
     ifnonnull FC_not_null
     ;{
@@ -536,7 +674,7 @@ FC_not_null:
     new java/io/File
     dup
     aload 9 ; [file]
-    invokenonvirtual java/io/File.<init>(Ljava/lang/String;)V
+    invokespecial java/io/File.<init>(Ljava/lang/String;)V
 
     invokevirtual java/io/File.getCanonicalFile()Ljava/io/File;
     dup
@@ -558,75 +696,53 @@ FC_not_null:
         ldc "Could not create parent folder!"
         goto error
       ;}
-FC_parent_OK:
 
+FC_parent_OK:
       ldc "Created parent folder ..."
       iload_3 ; [quiet]
       invokestatic org/gruj/Vs.info(Ljava/lang/String;Z)V
 
       aconst_null
     ;}
+
 FC_parent_exists:
     pop
 
+; +===========================================++
+;  \  If file exists, read it and calc digest ||
+;   ^=========================================++
+
 FC_loaded:
-
-; +============================================++
-;  \   If file exists, read it and calc digest ||
-;   ^==========================================++
-
     aload 9 ; [file]
     invokevirtual java/io/File.exists()Z
     ifeq FE_no_file
     ;{
-      aconst_null
-      astore_1 ; [foo]
 
 FE_read:
-      new java/io/FileInputStream
-      dup
-
-      aload 9 ; [file]
-      dup
-
-      invokevirtual java/io/File.length()J
-      l2i
-      newarray byte
-      astore 11 ; [body]
-
-      invokenonvirtual java/io/FileInputStream.<init>(Ljava/io/File;)V
-      astore_1 ; [foo]
-
-      aload_1 ; [foo]
-      aload 11 ; [body]
-      invokevirtual java/io/FileInputStream.read([B)I
-      pop
-
-      aload_1 ; [foo]
-      invokevirtual java/io/FileInputStream.close()V
+      ;{
+        aload 9 ; [file]
+        invokevirtual java/io/File.toURI()Ljava/net/URI;
+        invokevirtual java/net/URI.toURL()Ljava/net/URL;
+      ;}
+      aconst_null
+      iload_3 ; [quiet]
+      invokestatic org/gruj/Vs.get(Ljava/net/URL;Ljava/lang/String;Z)[B
+      astore 11
       goto FE_fin
 
 FE_error:
-      aload_1 ; [foo]
-      ifnull FE_skip_close
-      ;{
-        aload_1 ; [foo]
-        invokevirtual java/io/FileInputStream.close()V
-      ;}
-FE_skip_close:
       ldc "File could not be read"
       goto TH_error
 
+; +============================================++
+;  \  Check digest only if checksum is defined ||
+;   ^==========================================++
+
 FE_fin:
-
-; +=============================================++
-;  \   Check digest only if checksum is defined ||
-;   ^===========================================++
-
       aload 10 ; [checkType]
       ifnull FE_skip_check
       ;{
-        iconst_0
+        iconst_0 ; [cont!]
         ldc "Cached file exists, calculated checksum: "
 
 CH_calc:
@@ -651,12 +767,13 @@ CH_calc:
           pop
           ldc " [MISMATCH!]"
         ;}
+
 CH_check_OK:
         invokestatic org/gruj/Vs.cat(Ljava/lang/String;Ljava/lang/Object;)Ljava/lang/String;
         iload_3 ; [quiet]
         invokestatic org/gruj/Vs.info(Ljava/lang/String;Z)V
 
-        ifne CH_ret_1
+        ifne CH_ret_1 ; [cont!]
 
         iload_2 ; [bar]
         ifne FE_no_mismatch
@@ -675,8 +792,8 @@ CH_check_OK:
             ldc "Cached file checksum could not be matched, will not delete!"
             goto error
           ;}
-FE_delete:
 
+FE_delete:
           aload 9 ; [file]
           invokevirtual java/io/File.delete()Z
           ifne FE_delete_ok
@@ -694,100 +811,52 @@ FE_no_mismatch:
       ;}
 FE_skip_check:
     ;}
-FE_no_file:
 
 ; +===================================================++
 ;  \   If file was not sucessfully read and digested, ||
 ;   \  initiate download from the provided URL        ||
 ;    ^================================================++
 
+FE_no_file:
     aload 11 ; [body]
     ifnonnull FD_already_read
     ;{
-      ldc "Downloading file ("
-      aload 8 ; [URL]
-      invokestatic org/gruj/Vs.cat(Ljava/lang/String;Ljava/lang/Object;)Ljava/lang/String;
-      ldc ") ..."
-      invokestatic org/gruj/Vs.cat(Ljava/lang/String;Ljava/lang/Object;)Ljava/lang/String;
-      iload_3 ; [quiet]
-      invokestatic org/gruj/Vs.info(Ljava/lang/String;Z)V
-
-      aconst_null
-      astore_2 ; [bar]
 
 FD_read:
-      new java/io/BufferedInputStream
-      dup
       aload 8 ; [URL]
-      invokevirtual java/net/URL.openStream()Ljava/io/InputStream;
-      invokenonvirtual java/io/BufferedInputStream.<init>(Ljava/io/InputStream;)V
-      astore_2 ; [bar]
-
-      new java/io/ByteArrayOutputStream
-      dup
-      invokenonvirtual java/io/ByteArrayOutputStream.<init>()V
-      astore_1 ; [foo]
-
-FD_loop:
-      aload_2 ; [bar]
-      invokevirtual java/io/InputStream.read()I
-      dup
-
-      iconst_m1
-      if_icmpeq FD_loop_end
-      ;{
-        aload_1 ; [foo]
-        swap
-        invokevirtual java/io/ByteArrayOutputStream.write(I)V
-        goto FD_loop
-      ;}
-FD_loop_end:
-      pop
-
-      aload_2 ; [bar]
-      invokevirtual java/io/InputStream.close()V
-
-      aload_1 ; [foo]
-      invokevirtual java/io/ByteArrayOutputStream.toByteArray()[B
+      ldc "Downloading"
+      iload_3 ; [quiet]
+      invokestatic org/gruj/Vs.get(Ljava/net/URL;Ljava/lang/String;Z)[B
       astore 11 ; [body]
-
       goto FD_fin
     ;}
 
 FD_error:
-    aload_2 ; [bar]
-    ifnull FD_skip_close
-    ;{
-      aload_2 ; [bar]
-      invokevirtual java/io/InputStream.close()V
-    ;}
-FD_skip_close:
     ldc "File could not be downloaded"
     goto TH_error
 
-; +============================================++
-;  \   Calculate digest of the downloaded file ||
-;    ^=========================================++
+; +===========================================++
+;  \  Calculate digest of the downloaded file ||
+;   ^=========================================++
 
 FD_fin:
     aload 10 ; [checkType]
     ifnull FD_skip_check
     ;{
-        iconst_1
+        iconst_1 ; [cont!]
         ldc "File downloaded, calculated checksum: "
         goto CH_calc
-CH_ret_1:
 
+CH_ret_1:
       iload_2 ; [bar]
-      ifne FD_no_mismatch
+      ifne FD_skip_check
       ;{
         ldc "Downloaded file does not match provided checksum, exiting!"
         goto error
       ;}
-FD_no_mismatch:
 
 ; +==================================================++
-;  \   Checksum was correct, write byte arry to file ||
+;  \  Checksum was correct, write byte array to file ||
 ;   ^================================================++
 
 FD_skip_check:
@@ -806,7 +875,7 @@ FO_write:
       new java/io/FileOutputStream
       dup
       aload 9 ; [file]
-      invokenonvirtual java/io/FileOutputStream.<init>(Ljava/io/File;)V
+      invokespecial java/io/FileOutputStream.<init>(Ljava/io/File;)V
 
       dup
       dup
@@ -816,6 +885,7 @@ FO_write:
 
       invokevirtual java/io/FileOutputStream.close()V
       goto FO_fin
+
 FO_error:
       aload_1 ; [foo]
       ifnull FO_skip_close
@@ -823,19 +893,19 @@ FO_error:
         aload_1 ; [foo]
         invokevirtual java/io/FileOutputStream.close()V
       ;}
-FO_skip_close:
 
+FO_skip_close:
       ldc "File could not be written"
       goto TH_error
 
 FO_fin:
     ;}
+
+; +============================================++
+;  \  Find main class by locating the manifest ||
+;   ^==========================================++
+
 FD_already_read:
-
-; +=============================================++
-;  \   Find main class by locating the manifest ||
-;   ^===========================================++
-
     aload 7 ; [mainClass]
     ifnonnull MC_located
     ;{
@@ -844,8 +914,8 @@ FD_already_read:
       new java/io/ByteArrayInputStream
       dup
       aload 11 ; [body]
-      invokenonvirtual java/io/ByteArrayInputStream.<init>([B)V
-      invokenonvirtual java/util/zip/ZipInputStream.<init>(Ljava/io/InputStream;)V
+      invokespecial java/io/ByteArrayInputStream.<init>([B)V
+      invokespecial java/util/zip/ZipInputStream.<init>(Ljava/io/InputStream;)V
       astore_1 ; [foo]
 
 MC_seek:
@@ -856,10 +926,12 @@ MC_seek:
       ifnonnull MC_seeking
       ;{
         pop
+
  MC_fail:
         ldc "Could not locate main class, exiting!"
         goto error
       ;}
+
 MC_seeking:
       invokevirtual java/util/zip/ZipEntry.getName()Ljava/lang/String;
       ldc "META-INF/MANIFEST.MF"
@@ -869,7 +941,7 @@ MC_seeking:
       new java/util/jar/Manifest
       dup
       dup
-      invokenonvirtual java/util/jar/Manifest.<init>()V
+      invokespecial java/util/jar/Manifest.<init>()V
       aload_1 ; [foo]
       invokevirtual java/util/jar/Manifest.read(Ljava/io/InputStream;)V
 
@@ -880,9 +952,9 @@ MC_seeking:
       goto MC_test
     ;}
 
-; +===================================================++
-;  \   If main class is "",  do not run it (override) ||
-;   ^=================================================++
+; +==================================================++
+;  \  If main class is "",  do not run it (override) ||
+;   ^================================================++
 
 MC_test:
     aload 7 ; [mainClass]
@@ -896,13 +968,13 @@ MC_located:
       ldc "Will not run main class, exiting!"
       goto OK_exit
     ;}
-MC_load:
 
 ; +================================================++
 ;  \   Create a new URLClassLoader and load up the ||
 ;   \  main class parsed from the manifest         ||
 ;    ^=============================================++
 
+MC_load:
     aload 7 ; [mainClass]
     iconst_1
     new java/net/URLClassLoader
@@ -922,7 +994,7 @@ MC_load:
     invokestatic java/lang/Class/forName(Ljava/lang/String;)Ljava/lang/Class;
     invokevirtual java/lang/Class/getClassLoader()Ljava/lang/ClassLoader;
 
-    invokenonvirtual java/net/URLClassLoader.<init>([Ljava/net/URL;Ljava/lang/ClassLoader;)V
+    invokespecial java/net/URLClassLoader.<init>([Ljava/net/URL;Ljava/lang/ClassLoader;)V
     invokestatic java/lang/Class.forName(Ljava/lang/String;ZLjava/lang/ClassLoader;)Ljava/lang/Class;
 
     ldc "main"
@@ -943,12 +1015,11 @@ MC_crash:
     ldc "Could not load main class"
     goto TH_error
 
+; +=============================++
+;  \  Invoke the class (koniec) ||
+;   ^===========================++
+
 MC_fin:
-
-; +==============================++
-;  \   Invoke the class (koniec) ||
-;   ^============================++
-
     ldc "Running main class: "
     aload 7 ; [mainClass]
     invokestatic org/gruj/Vs.cat(Ljava/lang/String;Ljava/lang/Object;)Ljava/lang/String;
@@ -970,5 +1041,5 @@ MC_fin:
 
     iconst_0
     goto DO_exit
-
+  ;}
 .end method
