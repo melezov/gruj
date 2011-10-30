@@ -51,15 +51,8 @@ if $TRY_JREBEL && [ -n "$JREBEL_HOME" ] && [ -f $JREBEL_HOME/jrebel.jar ]; then
   JVM_PARAMS="$JVM_PARAMS -noverify -javaagent:$JREBEL_HOME/jrebel.jar $JREBEL_PLUGINS"
 fi
 
-STRAP="project/strap"
-SBT_PATH="$STRAP/sbt-launch-0.11.0.jar"
-SBT_PARAMS="$LOG_LEVEL $SBT_PARAMS"
-
-SBT_URL="http://typesafe.artifactoryonline.com/typesafe/ivy-releases/org.scala-tools.sbt/sbt-launch/0.11.0/sbt-launch.jar"
-GRUJ_PATH="$STRAP/gruj.jar"
-GRUJ_PARAMS="$GRUJ_PATH -c5B15BA0FC63E355D47293DEF4BC2E58DA6F03787 -d $SBT_URL $SBT_PATH $SBT_PARAMS"
-
-RUN_CMD="java $JVM_PARAMS -jar $GRUJ_PARAMS"
+GRUJ_PATH="project/strap/gruj_vs_sbt-launch-0.11.0.jar"
+RUN_CMD="java $JVM_PARAMS -jar $GRUJ_PATH $LOG_LEVEL $SBT_PARAMS"
 
 LOOPING=true
 while $LOOPING

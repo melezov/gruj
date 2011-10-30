@@ -66,8 +66,8 @@ CT_null:
 
 .method private static get(Ljava/net/URL;Ljava/lang/String;Z)[B
   ;{
-    .limit locals 40
-    .limit stack 30
+    .limit locals 3
+    .limit stack 5
     .catch all from GT_read to GT_error using GT_error
 
     ;{
@@ -452,7 +452,7 @@ PL_end:
 ;   \  the pass-through arguments (replaced)  ||
 ;    ^========================================++
 
-    ldc "Starting GRUJ v0.2.h0 with parameters:"
+    ldc "Starting GRUJ v0.2.0 with parameters:"
     iload_3 ; [quiet]
     invokestatic org/gruj/Vs.info(Ljava/lang/String;Z)V
 
@@ -1015,9 +1015,9 @@ MC_crash:
     ldc "Could not load main class"
     goto TH_error
 
-; +=============================++
-;  \  Invoke the class (koniec) ||
-;   ^===========================++
+; +=====================++
+;  \  Invoke the class! ||
+;   ^===================++
 
 MC_fin:
     ldc "Running main class: "
