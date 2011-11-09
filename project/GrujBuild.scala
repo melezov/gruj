@@ -36,7 +36,7 @@ object Dependencies {
     "net.liftweb" %% "lift-webkit" % liftVersion % "compile"
   )
 
-  val logback = "ch.qos.logback" % "logback-classic" % "0.9.30" % "compile->default"
+  val logback = "ch.qos.logback" % "logback-classic" % "1.0.0" % "compile->default"
 
   val scalatest = "org.scalatest" %% "scalatest" % "1.6.1" % "test"
 }
