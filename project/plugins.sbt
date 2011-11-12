@@ -15,9 +15,7 @@ addSbtPlugin("com.typesafe.sbteclipse" % "sbteclipse" % "1.4.0")
 // | Implements SBT 0.7.x Web project actions: "jetty-run" -> "container:start", etc ... |
 // +-------------------------------------------------------------------------------------+
 
-resolvers += "Siasia repo" at "http://siasia.github.com/maven2"
-
-libraryDependencies <+= sbtVersion(v => "com.github.siasia" %% "xsbt-web-plugin" % (v+"-0.2.8"))
+libraryDependencies <+= sbtVersion(v => "com.github.siasia" %% "xsbt-web-plugin" % (v+"-0.2.9"))
 
 // +------------------------------------------------------------------------------------+
 // | CoffeeScripted SBT (https://github.com/softprops/coffeescripted-sbt)               |
@@ -28,7 +26,7 @@ libraryDependencies <+= sbtVersion(v => "com.github.siasia" %% "xsbt-web-plugin"
 
 resolvers += "less is" at "http://repo.lessis.me"
 
-addSbtPlugin("me.lessis" % "coffeescripted-sbt" % "0.1.5")
+addSbtPlugin("me.lessis" % "coffeescripted-sbt" % "0.2.0")
 
 // +------------------------------------------------------------------------------------+
 // | Less SBT (https://github.com/softprops/less-sbt)                                   |

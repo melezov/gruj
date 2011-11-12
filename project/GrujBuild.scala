@@ -51,7 +51,8 @@ object GrujBuild extends Build {
   import com.github.siasia.PluginKeys._
 
   // Coffeescript plugin
-  import coffeescript.CoffeeScript._
+  import coffeescript.Plugin._
+  import CoffeeKeys._
 
   // Less plugin
   import less.Plugin._
@@ -85,7 +86,7 @@ object GrujBuild extends Build {
       port in container.Configuration := 8071,
       scanDirectories in Compile := Nil
     ) ++ coffeeSettings ++ Seq(
-      targetDirectory in Coffee <<= (webappResources in Compile)(_.get.head / "static" / "coffee")
+      resourceManaged in (Compile, coffee) <<= (webappResources in Compile)(_.get.head / "static" / "coffee")
     ) ++ lessSettings ++ Seq(
       mini in (Compile, less) := true,
       resourceManaged in (Compile, less) <<= (webappResources in Compile)(_.get.head / "static" / "less")
