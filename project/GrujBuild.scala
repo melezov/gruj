@@ -2,36 +2,27 @@ import sbt._
 import Keys._
 
 object BuildSettings {
-  val buildOrganization = "Element d.o.o."
-  val buildScalaVersion = "2.9.1"
-  val buildScalacOptions = Seq("-deprecation", "-Yrepl-sync")
-
-  val bsCore = Defaults.defaultSettings ++ Seq(
-    organization  := buildOrganization,
-    name          := "Gruj - Core",
-    version       := "0.2.0",
-    scalaVersion  := buildScalaVersion,
-    scalacOptions := buildScalacOptions
+  val bsDefault = Defaults.defaultSettings ++ Seq(
+    organization  := "Element d.o.o.",
+    scalaVersion  := "2.9.1",
+    scalacOptions := Seq("-unchecked", "-deprecation", "-Yrepl-sync", "-encoding", "UTF-8", "-optimise")
   )
 
-  val bsLift = Defaults.defaultSettings ++ Seq(
-    organization  := buildOrganization,
-    name          := "Gruj - Lift",
-    version       := "0.1.4",
-    scalaVersion  := buildScalaVersion,
-    scalacOptions := buildScalacOptions
+  val bsCore = bsDefault ++ Seq(
+    name          := "Gruj-Core",
+    version       := "0.2.0"
   )
-}
 
-object Resolvers {
-  val resCore = Seq()
-  val resLift = Seq()
+  val bsLift = bsDefault ++ Seq(
+    name          := "Gruj-Lift",
+    version       := "0.1.5"
+  )
 }
 
 object Dependencies {
   val jetty  = "org.eclipse.jetty" % "jetty-webapp" % "8.0.4.v20111024" % "container"
 
-  val liftVersion = "2.4-M4"
+  val liftVersion = "2.4-M5"
   val liftweb = Seq(
     "net.liftweb" %% "lift-webkit" % liftVersion % "compile"
   )
@@ -43,7 +34,6 @@ object Dependencies {
 
 object GrujBuild extends Build {
   import BuildSettings._
-  import Resolvers._
   import Dependencies._
 
   // Web plugin
@@ -71,7 +61,6 @@ object GrujBuild extends Build {
     "Core",
     file("core"),
     settings = bsCore ++ Seq(
-      resolvers := resCore,
       libraryDependencies := depsCore
     )
   )
@@ -80,7 +69,6 @@ object GrujBuild extends Build {
     "Lift",
     file("lift"),
     settings = bsLift ++ Seq(
-      resolvers := resLift,
       libraryDependencies := depsLift
     ) ++ webSettings  ++ Seq(
       port in container.Configuration := 8071,

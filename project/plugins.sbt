@@ -8,14 +8,14 @@
 
 resolvers += Classpaths.typesafeResolver
 
-addSbtPlugin("com.typesafe.sbteclipse" % "sbteclipse" % "1.4.0")
+addSbtPlugin("com.typesafe.sbteclipse" % "sbteclipse" % "1.5.0")
 
 // +-------------------------------------------------------------------------------------+
 // | XSBT Web plugin (https://github.com/siasia/xsbt-web-plugin)                         |
 // | Implements SBT 0.7.x Web project actions: "jetty-run" -> "container:start", etc ... |
 // +-------------------------------------------------------------------------------------+
 
-libraryDependencies <+= sbtVersion(v => "com.github.siasia" %% "xsbt-web-plugin" % (v+"-0.2.9"))
+libraryDependencies <+= sbtVersion(v => "com.github.siasia" %% "xsbt-web-plugin" % (v+"-0.2.10"))
 
 // +------------------------------------------------------------------------------------+
 // | CoffeeScripted SBT (https://github.com/softprops/coffeescripted-sbt)               |
