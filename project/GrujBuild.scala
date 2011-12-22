@@ -20,7 +20,7 @@ object BuildSettings {
 }
 
 object Dependencies {
-  val jetty  = "org.eclipse.jetty" % "jetty-webapp" % "8.0.4.v20111024" % "container"
+  val jetty  = "org.eclipse.jetty" % "jetty-webapp" % "8.1.0.RC1" % "container"
 
   val liftVersion = "2.4-M5"
   val liftweb = Seq(
