@@ -71,6 +71,8 @@ object GrujBuild extends Build {
     settings = bsLift ++ Seq(
       libraryDependencies := depsLift
     ) ++ webSettings  ++ Seq(
+      artifactName in packageWar := { 
+        (config: String, module: ModuleID, artifact: Artifact) => "gruj.war" },
       port in container.Configuration := 8071,
       scanDirectories in Compile := Nil
     ) ++ coffeeSettings ++ Seq(
