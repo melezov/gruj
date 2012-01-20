@@ -8,7 +8,7 @@
 
 resolvers += Classpaths.typesafeResolver
 
-addSbtPlugin("com.typesafe.sbteclipse" % "sbteclipse-plugin" % "2.0.0-M2")
+addSbtPlugin("com.typesafe.sbteclipse" % "sbteclipse-plugin" % "2.0.0-M3")
 
 // +-------------------------------------------------------------------------------------+
 // | XSBT Web plugin (https://github.com/siasia/xsbt-web-plugin)                         |
@@ -26,7 +26,7 @@ libraryDependencies <+= sbtVersion(v => "com.github.siasia" %% "xsbt-web-plugin"
 
 resolvers += "less is" at "http://repo.lessis.me"
 
-addSbtPlugin("me.lessis" % "coffeescripted-sbt" % "0.2.0")
+addSbtPlugin("me.lessis" % "coffeescripted-sbt" % "0.2.1")
 
 // +------------------------------------------------------------------------------------+
 // | Less SBT (https://github.com/softprops/less-sbt)                                   |
@@ -38,4 +38,4 @@ addSbtPlugin("me.lessis" % "coffeescripted-sbt" % "0.2.0")
 // (repository already added above)
 // resolvers += "less is" at "http://repo.lessis.me"
 
-addSbtPlugin("me.lessis" % "less-sbt" % "0.1.3")
+addSbtPlugin("me.lessis" % "less-sbt" % "0.1.4")
