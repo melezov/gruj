@@ -14,3 +14,6 @@ lift/logs/nginx/*.log
 project/boot
 project/project
 project/strap/sbt-launch-*.jar
+
+
+*.pyc
