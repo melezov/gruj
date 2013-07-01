@@ -1,0 +1,50 @@
+server {
+  listen gruj.org:80;
+  server_name .gruj.org;
+
+  access_log /home/www/gruj/logs/nginx/access.log;
+  error_log  /home/www/gruj/logs/nginx/error.log;
+
+  location ~ ^/(favicon\.ico|robots\.txt|static/.*)$ {
+    root     /home/www/gruj/lift/src/main/webapp;
+    expires  30d;
+  }
+
+  location / {
+    proxy_pass http://localhost:8071/;
+    proxy_set_header X-Forwarded-For $remote_addr;
+    proxy_set_header Host $host;
+    proxy_set_header X-Forwarded-Proto http;
+  }
+}
+
+server {
+  listen gruj.org:443;
+  server_name .gruj.org;
+
+  ssl on;
+  ssl_certificate     /home/www/gruj/config/certs/wc.gruj.org.crt;
+  ssl_certificate_key /home/www/gruj/config/certs/wc.gruj.org.key;
+
+  keepalive_timeout   70;
+  ssl_session_timeout 5m;
+
+  ssl_protocols             SSLv3 TLSv1;
+  ssl_ciphers               ALL:!ADH:!EXPORT:!SSLv2:RC4+RSA:+HIGH:+MEDIUM;
+  ssl_prefer_server_ciphers on;
+
+  access_log /home/www/gruj/logs/nginx/access.log;
+  error_log  /home/www/gruj/logs/nginx/error.log;
+
+  location ~ ^/(favicon\.ico|robots\.txt|static/.*)$ {
+    root     /home/www/gruj/lift/src/main/webapp;
+    expires  30d;
+  }
+
+  location / {
+    proxy_pass http://localhost:8071/;
+    proxy_set_header X-Forwarded-For $remote_addr;
+    proxy_set_header Host $host;
+    proxy_set_header X-Forwarded-Proto http;
+  }
+}
