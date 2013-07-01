@@ -3,33 +3,31 @@ import Keys._
 
 object BuildSettings {
   val bsDefault = Defaults.defaultSettings ++ Seq(
-    organization  := "Element d.o.o.",
-    scalaVersion  := "2.9.1",
-    scalacOptions := Seq("-unchecked", "-deprecation", "-Yrepl-sync", "-encoding", "UTF-8", "-optimise")
+    organization  := "org.gruj"
+  , scalaVersion  := "2.10.2"
+  , scalacOptions := Seq("-unchecked", "-deprecation", "-Yrepl-sync", "-encoding", "UTF-8", "-optimise")
   )
 
   val bsCore = bsDefault ++ Seq(
-    name          := "Gruj-Core",
-    version       := "0.2.0"
+    name          := "Gruj-Core"
+  , version       := "0.2.0"
   )
 
   val bsLift = bsDefault ++ Seq(
-    name          := "Gruj-Lift",
-    version       := "0.1.5"
+    name          := "Gruj-Lift"
+  , version       := "0.1.5"
   )
 }
 
 object Dependencies {
-  val jetty  = "org.eclipse.jetty" % "jetty-webapp" % "8.1.0.RC4" % "container"
+  val jetty = "org.eclipse.jetty" % "jetty-webapp" % "8.1.11.v20130520" % "container"
+  val orbit = "org.eclipse.jetty.orbit" % "javax.servlet" % "3.0.0.v201112011016" % "container" artifacts Artifact("javax.servlet", "jar", "jar")
 
-  val liftVersion = "2.4"
-  val liftweb = Seq(
-    "net.liftweb" %% "lift-webkit" % liftVersion % "compile"
-  )
+  val liftWebKit = "net.liftweb" %% "lift-webkit" % "2.5.1"
 
-  val logback = "ch.qos.logback" % "logback-classic" % "1.0.0" % "compile->default"
+  val logback = "ch.qos.logback" % "logback-classic" % "1.0.13"
 
-  val scalatest = "org.scalatest" %% "scalatest" % "1.6.1" % "test"
+  val scalaTest = "org.scalatest" %% "scalatest" % "2.0.M5b" % "test"
 }
 
 object GrujBuild extends Build {
@@ -37,8 +35,8 @@ object GrujBuild extends Build {
   import Dependencies._
 
   // Web plugin
-  import com.github.siasia.WebPlugin._
-  import com.github.siasia.PluginKeys._
+  import com.earldouglas.xsbtwebplugin.WebPlugin._
+  import com.earldouglas.xsbtwebplugin.PluginKeys._
 
   // Coffeescript plugin
   import coffeescript.Plugin._
@@ -49,12 +47,14 @@ object GrujBuild extends Build {
   import LessKeys._
 
   val depsCore = Seq(
-    scalatest
+    scalaTest
   )
 
-  val depsLift = liftweb ++ Seq(
-    jetty,
-    logback
+  val depsLift = Seq(
+    jetty
+  , orbit
+  , liftWebKit
+  , logback
   )
 
   lazy val core = Project(
@@ -71,15 +71,15 @@ object GrujBuild extends Build {
     settings = bsLift ++ Seq(
       libraryDependencies := depsLift
     ) ++ webSettings  ++ Seq(
-      artifactName in packageWar := { 
-        (config: String, module: ModuleID, artifact: Artifact) => "gruj.war" },
-      port in container.Configuration := 8071,
-      scanDirectories in Compile := Nil
+      artifactName in packageWar :=
+        ((_: ScalaVersion, _: ModuleID, _: Artifact) => "gruj.war")
+    , port in container.Configuration := 8071
+    , scanDirectories in Compile := Nil
     ) ++ coffeeSettings ++ Seq(
       resourceManaged in (Compile, coffee) <<= (webappResources in Compile)(_.get.head / "static" / "coffee")
     ) ++ lessSettings ++ Seq(
-      mini in (Compile, less) := true,
-      resourceManaged in (Compile, less) <<= (webappResources in Compile)(_.get.head / "static" / "less")
+      mini in (Compile, less) := true
+    , resourceManaged in (Compile, less) <<= (webappResources in Compile)(_.get.head / "static" / "less")
     )
   ) dependsOn(core)
 }

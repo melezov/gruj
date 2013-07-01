@@ -2,7 +2,7 @@
 cd `dirname $0`
 
 ## START JVM PARAMS
-JVM_PARAMS="-Xss2m -Xmx712m -XX:MaxPermSize=256m -XX:+CMSClassUnloadingEnabled"
+JVM_PARAMS="-Xss2m -Xms2g -Xmx2g -XX:+TieredCompilation -XX:ReservedCodeCacheSize=256m -XX:MaxPermSize=256m -XX:+CMSClassUnloadingEnabled -XX:+UseNUMA -XX:+UseParallelGC -Dscalac.patmat.analysisBudget=off"
 
 LIFT_RUN_MODE="-Drun.mode=development"
 TRY_JREBEL=true
@@ -18,7 +18,8 @@ do
       LOG_LEVEL="\"set logLevel:=Level.Debug\""
       ;;
     "--prod")
-      echo "Set Lift mode to Production"
+      echo "Setting production mode"
+      LOG_LEVEL="\"set logLevel:=Level.Info\""
       LIFT_RUN_MODE="-Drun.mode=production"
       ;;
     "~lift")
@@ -51,7 +52,7 @@ if $TRY_JREBEL && [ -n "$JREBEL_HOME" ] && [ -f $JREBEL_HOME/jrebel.jar ]; then
   JVM_PARAMS="$JVM_PARAMS -noverify -javaagent:$JREBEL_HOME/jrebel.jar $JREBEL_PLUGINS"
 fi
 
-GRUJ_PATH="project/strap/gruj_vs_sbt-launch-0.11.2.jar"
+GRUJ_PATH="project/strap/gruj_vs_sbt-launch-0.13.0-RC1.jar"
 RUN_CMD="java $JVM_PARAMS -jar $GRUJ_PATH $LOG_LEVEL $SBT_PARAMS"
 
 LOOPING=true
