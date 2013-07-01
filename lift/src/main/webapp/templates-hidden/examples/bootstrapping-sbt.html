@@ -3,8 +3,8 @@
       <p>
         The easiest way to see this in action would be to checkout the
         GRUJ website from either
-        <a href="http://launchpad.net/gruj" rel="external" title="GRUJ on Launchpad">Launchpad</a> or
         <a href="https://github.com/melezov/gruj" rel="external" title="GRUJ on GitHub">GitHub</a>
+        <a href="http://launchpad.net/gruj" rel="external" title="GRUJ on Launchpad">Launchpad</a> or
         and simply run the thing locally.
       </p>
 
@@ -41,16 +41,8 @@
 
       <h4>Required steps:</h4>
       <p>
-        Branch the project from Launchpad or download and extract it to some folder.
+        Clone the project from Github or download and extract it to some folder.
       </p>
-      <pre>user@box:~$ <strong class="command">bzr branch lp:gruj</strong>
-Branched 39 revision(s).
-user@box:~$ <strong class="command">cd gruj</strong></pre>
-
-      <p>
-        &hellip; alternatively, clone from GitHub:
-      </p>
-
       <pre>user@box:~$ <strong class="command">git clone git://github.com/melezov/gruj.git</strong>
 Cloning into gruj...
 remote: Counting objects: 434, done.
@@ -58,6 +50,13 @@ remote: Compressing objects: 100% (374/374), done.
 remote: Total 434 (delta 105), reused 329 (delta 0)
 Receiving objects: 100% (434/434), 606.70 KiB | 273 KiB/s, done.
 Resolving deltas: 100% (105/105), done.
+user@box:~$ <strong class="command">cd gruj</strong></pre>
+
+      <p>
+        &hellip; alternatively, branch the project from Launchpad:
+      </p>
+      <pre>user@box:~$ <strong class="command">bzr branch lp:gruj</strong>
+Branched 39 revision(s).
 user@box:~$ <strong class="command">cd gruj</strong></pre>
 
       <p>

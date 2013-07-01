@@ -23,7 +23,6 @@ class Boot {
 
   LiftRules.dispatch.append(ExampleTabs)
 
-  LiftRules.jsArtifacts = JQuery14Artifacts
   LiftRules.stripComments.default.set(() => false)
 
   LiftRules.early.append(_.setCharacterEncoding("UTF-8"))

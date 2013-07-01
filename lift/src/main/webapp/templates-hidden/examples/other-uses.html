@@ -4,9 +4,15 @@
         When plain ol' download managers don't cut it, you need the power
         of Java connector libraries to tap into them weird astral protocol planes.
       </p>
+<lift:ignore>
       <p>
         Take gopher for example :)<br/>
         <a href="gopher://xsbt.org/" rel="external" title="Weird protocol example">gopher://xsbt.org/</a> *
+      </p>
+</lift:ignore>
+      <p>
+        Take FTP for example<br/>
+        <a href="ftp://xsbt.org/" rel="external" title="FTP protocol example">ftp://xsbt.org/</a> *
       </p>
       <hr/>
       <p>
@@ -18,13 +24,13 @@
         but let's not actually run it, to keep things simple. This is done via the <strong>-m</strong> switch
         like it was shown on the <a href="/examples/executing-jars">"Executing jars"</a> example.
       </p>
-      <pre>C:\&gt;<strong class="command">java -jar gruj.jar -m gopher://xsbt.org/sbt-launch-0.11.0.jar sbt-11.jar</strong>
+      <pre>C:\&gt;<strong class="command">java -jar gruj.jar -m ftp://xsbt.org/sbt-launch-0.13.0-RC1.jar sbt-13.jar</strong>
 [info] Starting GRUJ v0.2.0 with parameters:
-[info]   URL: gopher://xsbt.org/sbt-launch-0.11.0.jar
+[info]   URL: ftp://xsbt.org/sbt-launch-0.13.0-RC1.jar
 [info]   File: sbt-11.jar
 [info]   Main class: [N/A]
-[info] Downloading file (gopher://xsbt.org/sbt-launch-0.11.0.jar) ...
-[info] Writing file (C:\sbt-11.jar) ...
+[info] Downloading file (ftp://xsbt.org/sbt-launch-0.13.0-RC1.jar) ...
+[info] Writing file (C:\sbt-13.jar) ...
 [info] Will not run main class, exiting!</pre>
 
       <hr class="space"/>
