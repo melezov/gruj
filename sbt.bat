@@ -70,7 +70,7 @@ if %TRY_JREBEL%.==true. (
   if exist "%JREBEL_HOME%\jrebel.jar" set JVM_PARAMS=%JVM_PARAMS% -noverify -javaagent:"%JREBEL_HOME%\jrebel.jar" %JREBEL_PLUGINS%
 )
 
-set GRUJ_PATH=project\strap\gruj_vs_sbt-launch-0.13.0-RC1.jar
+set GRUJ_PATH=project\strap\gruj_vs_sbt-launch-0.13.0.jar
 set RUN_CMD=java %JVM_PARAMS% -jar %GRUJ_PATH% %LOG_LEVEL% %SBT_PARAMS%
 
 :RUN_LOOP

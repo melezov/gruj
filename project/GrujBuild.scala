@@ -4,7 +4,7 @@ import Keys._
 object BuildSettings {
   val bsDefault = Defaults.defaultSettings ++ Seq(
     organization  := "org.gruj"
-  , scalaVersion  := "2.10.2"
+  , scalaVersion  := "2.10.3"
   , scalacOptions := Seq("-unchecked", "-deprecation", "-Yrepl-sync", "-encoding", "UTF-8", "-optimise")
   )
 
@@ -20,14 +20,14 @@ object BuildSettings {
 }
 
 object Dependencies {
-  val jetty = "org.eclipse.jetty" % "jetty-webapp" % "8.1.11.v20130520" % "container"
+  val jetty = "org.eclipse.jetty" % "jetty-webapp" % "8.1.14.v20131031" % "container"
   val orbit = "org.eclipse.jetty.orbit" % "javax.servlet" % "3.0.0.v201112011016" % "container" artifacts Artifact("javax.servlet", "jar", "jar")
 
   val liftWebKit = "net.liftweb" %% "lift-webkit" % "2.5.1"
 
   val logback = "ch.qos.logback" % "logback-classic" % "1.0.13"
 
-  val scalaTest = "org.scalatest" %% "scalatest" % "2.0.M5b" % "test"
+  val scalaTest = "org.scalatest" %% "scalatest" % "2.0" % "test"
 }
 
 object GrujBuild extends Build {
